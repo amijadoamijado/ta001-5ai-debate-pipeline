@@ -1,0 +1,14 @@
+{
+  "name": "ta001-5ai-debate-pipeline",
+  "version": "0.1.0",
+  "description": "5AI Debate Pipeline - Research API Adapters",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^25.2.3",
+    "typescript": "^5.7.0"
+  }
+}
