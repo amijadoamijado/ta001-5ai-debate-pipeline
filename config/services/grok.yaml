@@ -1,0 +1,196 @@
+# Grok DeepSearch 操作レシピ
+# React SPA（Shadow DOMなし）- 最も自動化が容易
+
+service_name: grok
+display_name: Grok DeepSearch
+base_url: https://grok.com
+
+auth:
+  storage_state_path: .storage/grok-state.json
+  session_storage_path: .storage/grok-session-storage.json
+  health_check_selector: "[data-testid='user-avatar']"
+  login_url: https://grok.com
+
+rate_limit:
+  min_interval_ms: 180000  # 3分間隔
+  max_per_day: 20
+  backoff_multiplier: 2.0
+
+selectors:
+  input_field:
+    primary: "textarea[placeholder*='Ask']"
+    fallback_1: "[data-testid='chat-input']"
+    fallback_2: "textarea"
+    fallback_3: "[role='textbox']"
+  model_selector:
+    primary: "button:has-text('Grok')"
+    fallback_1: "[data-testid='model-selector']"
+    fallback_2: "[aria-label*='model']"
+  model_option:
+    primary: "text=Grok 3"
+    fallback_1: "[data-value*='grok-3']"
+    fallback_2: "[role='option']:has-text('Grok 3')"
+  deep_search_button:
+    primary: "button:has-text('DeepSearch')"
+    fallback_1: "[data-testid='deep-search-toggle']"
+    fallback_2: "[aria-label*='DeepSearch']"
+    fallback_3: "button:has-text('Deep Search')"
+  send_button:
+    primary: "button[aria-label='Send']"
+    fallback_1: "[data-testid='send-button']"
+    fallback_2: "button[type='submit']"
+  response_container:
+    primary: "[data-testid='message-content']:last-of-type"
+    fallback_1: ".message-content:last-of-type .markdown"
+    fallback_2: "[class*='response'] [class*='markdown']"
+    fallback_3: ".chat-message:last-of-type .content"
+  search_progress:
+    primary: "[data-testid='search-progress']"
+    fallback_1: "[class*='search-progress']"
+    fallback_2: ".thinking-panel"
+  streaming_indicator:
+    primary: "[class*='streaming']"
+    fallback_1: "[data-testid='stop-button']"
+    fallback_2: "button:has-text('Stop')"
+  action_buttons:
+    primary: "button:has-text('Copy')"
+    fallback_1: "[data-testid='copy-button']"
+    fallback_2: "button[aria-label='Copy']"
+  source_links:
+    primary: "[data-testid='source-link']"
+    fallback_1: ".source-item a"
+    fallback_2: "[class*='citation'] a"
+
+operation_steps:
+  - name: navigate_to_grok
+    action: navigate
+    value: https://grok.com
+    timeout: 30000
+    screenshot: true
+    description: Grokメイン画面に遷移
+
+  - name: verify_session
+    action: check_visible
+    selector:
+      primary: "[data-testid='user-avatar']"
+      fallback_1: "img[alt*='avatar']"
+    timeout: 10000
+    description: セッション有効性チェック
+
+  - name: select_model
+    action: click
+    selector:
+      primary: "button:has-text('Grok')"
+      fallback_1: "[data-testid='model-selector']"
+    timeout: 5000
+    optional: true
+    description: モデルセレクタを開く
+
+  - name: choose_grok3
+    action: click
+    selector:
+      primary: "text=Grok 3"
+      fallback_1: "[role='option']:has-text('Grok 3')"
+    timeout: 5000
+    optional: true
+    description: Grok 3モデルを選択
+
+  - name: enable_deep_search
+    action: click
+    selector:
+      primary: "button:has-text('DeepSearch')"
+      fallback_1: "[data-testid='deep-search-toggle']"
+      fallback_2: "[aria-label*='DeepSearch']"
+    timeout: 5000
+    screenshot: true
+    description: DeepSearchモードを有効化
+
+  - name: input_prompt
+    action: type
+    selector:
+      primary: "textarea[placeholder*='Ask']"
+      fallback_1: "[data-testid='chat-input']"
+      fallback_2: "textarea"
+    timeout: 10000
+    description: プロンプト入力
+
+  - name: send_prompt
+    action: click
+    selector:
+      primary: "button[aria-label='Send']"
+      fallback_1: "[data-testid='send-button']"
+    timeout: 5000
+    screenshot: true
+    description: プロンプト送信
+
+  - name: wait_for_completion
+    action: wait
+    timeout: 600000  # 10分
+    description: DeepSearch完了待機
+
+  - name: extract_response
+    action: extract
+    selector:
+      primary: "[data-testid='message-content']:last-of-type"
+      fallback_1: ".message-content:last-of-type .markdown"
+    screenshot: true
+    description: レスポンス＋ソースリンク抽出
+
+completion_detection:
+  layers:
+    - mutation_observer
+    - stabilization
+  mutation_observer:
+    streaming_class: "streaming"
+    completion_indicators:
+      - "[class*='streaming']:not(:visible)"
+      - "button:has-text('Copy')"
+      - "[data-testid='source-link']"
+    action_buttons:
+      - "button:has-text('Copy')"
+      - "button:has-text('Share')"
+  stabilization:
+    selector: "[data-testid='message-content']:last-of-type"
+    stability_threshold_ms: 5000
+    poll_interval_ms: 1000
+    max_timeout_ms: 600000
+  adaptive_polling:
+    initial_interval_ms: 2000
+    multiplier: 1.5
+    max_interval_ms: 10000
+
+error_patterns:
+  - name: error_occurred
+    selector: "text=Something went wrong"
+    recovery_action: retry
+  - name: rate_limit
+    selector: "text=rate limit"
+    recovery_action: screenshot_escalate
+  - name: try_again
+    selector: "button:has-text('Try again')"
+    recovery_action: retry
+
+captcha_detection:
+  selectors:
+    - "iframe[src*='recaptcha']"
+    - "div.cf-turnstile"
+    - "[id*='challenge']"
+  escalation:
+    screenshot: true
+    timeout_ms: 1800000
+
+output_extraction:
+  response_selector:
+    primary: "[data-testid='message-content']:last-of-type"
+    fallback_1: ".message-content:last-of-type .markdown"
+    fallback_2: "[class*='response'] [class*='markdown']"
+  format: html
+  citations:
+    enabled: true
+    badge_selector: "[data-testid='source-link']"
+    link_selector: ".source-item a[href^='http']"
+  validation:
+    min_length: 500
+    truncation_markers:
+      - "..."
+      - "Show more"

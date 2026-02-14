@@ -1,0 +1,29 @@
+{
+  "name": "ta001-5ai-debate-pipeline",
+  "version": "1.0.0",
+  "description": "5AI Agent Debate Pipeline with Browser Automation",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "ts-node src/browser-automation/index.ts",
+    "automation:run": "ts-node src/browser-automation/orchestrator.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://local_proxy@127.0.0.1:29627/git/amijadoamijado/ta001-5ai-debate-pipeline"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "playwright": "^1.58.2",
+    "winston": "^3.19.0",
+    "yaml": "^2.8.2"
+  },
+  "devDependencies": {
+    "@types/node": "^25.2.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}

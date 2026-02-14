@@ -1,0 +1,197 @@
+# ChatGPT Deep Research 操作レシピ
+# ProseMirror + React SPA 対応
+
+service_name: chatgpt
+display_name: ChatGPT Deep Research
+base_url: https://chatgpt.com
+
+auth:
+  storage_state_path: .storage/chatgpt-state.json
+  session_storage_path: .storage/chatgpt-session-storage.json
+  health_check_selector: "[data-testid='profile-button']"
+  login_url: https://chatgpt.com/auth/login
+
+rate_limit:
+  min_interval_ms: 300000  # 5分間隔
+  max_per_day: 10
+  backoff_multiplier: 2.0
+
+selectors:
+  input_field:
+    primary: "div.ProseMirror[contenteditable='true']"
+    fallback_1: "[id='prompt-textarea']"
+    fallback_2: "textarea[data-id='root']"
+    fallback_3: "[role='textbox']"
+  deep_research_trigger:
+    primary: "button:has-text('Deep research')"
+    fallback_1: "[data-testid='deep-research']"
+    fallback_2: "[aria-label*='Deep research']"
+    fallback_3: ".tools-dropdown >> text=Research"
+  tools_dropdown:
+    primary: "button[aria-label='Attach files']"
+    fallback_1: "button:has-text('+')"
+    fallback_2: "[data-testid='composer-tools']"
+  send_button:
+    primary: "[data-testid='send-button']"
+    fallback_1: "button[aria-label='Send prompt']"
+    fallback_2: "form button[type='submit']"
+  response_container:
+    primary: "[data-testid='conversation-turn-last'] .markdown"
+    fallback_1: ".agent-turn .markdown"
+    fallback_2: "[class*='response'] [class*='markdown']"
+    fallback_3: "article >> .prose"
+  streaming_indicator:
+    primary: ".result-streaming"
+    fallback_1: "[class*='streaming']"
+    fallback_2: "button:has-text('Stop generating')"
+  stop_button:
+    primary: "button:has-text('Stop generating')"
+    fallback_1: "[data-testid='stop-button']"
+    fallback_2: "[aria-label='Stop generating']"
+  action_buttons:
+    primary: "button:has-text('Copy')"
+    fallback_1: "[data-testid='copy-turn-action-button']"
+    fallback_2: "button[aria-label='Copy']"
+  clarification_input:
+    primary: "div.ProseMirror[contenteditable='true']"
+    fallback_1: "[role='textbox']"
+
+operation_steps:
+  - name: navigate_to_chatgpt
+    action: navigate
+    value: https://chatgpt.com
+    timeout: 30000
+    screenshot: true
+    description: ChatGPTのメイン画面に遷移
+
+  - name: verify_session
+    action: check_visible
+    selector:
+      primary: "[data-testid='profile-button']"
+      fallback_1: "button[aria-label='User menu']"
+    timeout: 10000
+    description: セッション有効性チェック
+
+  - name: open_tools_dropdown
+    action: click
+    selector:
+      primary: "button[aria-label='Attach files']"
+      fallback_1: "button:has-text('+')"
+      fallback_2: "[data-testid='composer-tools']"
+    timeout: 5000
+    optional: true
+    description: ツールドロップダウンを開く
+
+  - name: select_deep_research
+    action: click
+    selector:
+      primary: "button:has-text('Deep research')"
+      fallback_1: "[data-testid='deep-research']"
+      fallback_2: "[aria-label*='Deep research']"
+    timeout: 5000
+    screenshot: true
+    description: Deep Researchモードを選択
+
+  - name: input_prompt
+    action: keyboard_type
+    selector:
+      primary: "div.ProseMirror[contenteditable='true']"
+      fallback_1: "[id='prompt-textarea']"
+      fallback_2: "[role='textbox']"
+    timeout: 10000
+    description: プロンプトをキーボード入力（ProseMirror対応）
+
+  - name: send_prompt
+    action: click
+    selector:
+      primary: "[data-testid='send-button']"
+      fallback_1: "button[aria-label='Send prompt']"
+    timeout: 5000
+    screenshot: true
+    description: プロンプトを送信
+
+  - name: wait_for_completion
+    action: wait
+    timeout: 1800000  # 30分
+    description: Deep Research完了待機
+
+  - name: extract_response
+    action: extract
+    selector:
+      primary: "[data-testid='conversation-turn-last'] .markdown"
+      fallback_1: ".agent-turn .markdown"
+      fallback_2: "[class*='response'] [class*='markdown']"
+    screenshot: true
+    description: レスポンスを抽出
+
+completion_detection:
+  layers:
+    - network
+    - mutation_observer
+    - stabilization
+  network:
+    url_pattern: "**/backend-api/conversation*"
+    content_type: "text/event-stream"
+    eof_marker: "[DONE]"
+  mutation_observer:
+    streaming_class: "result-streaming"
+    completion_indicators:
+      - ".result-streaming:not(:visible)"
+      - "[data-testid='copy-turn-action-button']"
+    action_buttons:
+      - "button:has-text('Copy')"
+      - "button:has-text('Regenerate')"
+  stabilization:
+    selector: "[data-testid='conversation-turn-last'] .markdown"
+    stability_threshold_ms: 5000
+    poll_interval_ms: 1000
+    max_timeout_ms: 1800000
+  adaptive_polling:
+    initial_interval_ms: 2000
+    multiplier: 1.5
+    max_interval_ms: 15000
+
+error_patterns:
+  - name: something_went_wrong
+    selector: "text=Something went wrong"
+    recovery_action: retry
+  - name: network_error
+    selector: "text=Network error"
+    recovery_action: retry
+  - name: try_again
+    selector: "button:has-text('Try again')"
+    recovery_action: retry
+  - name: rate_limit
+    selector: "text=You've reached the"
+    recovery_action: screenshot_escalate
+  - name: session_expired
+    selector: "text=Your session has expired"
+    recovery_action: reauth
+
+captcha_detection:
+  selectors:
+    - "iframe[src*='recaptcha']"
+    - "div.cf-turnstile"
+    - "[id*='challenge']"
+  escalation:
+    screenshot: true
+    timeout_ms: 1800000  # 30分待機
+
+output_extraction:
+  response_selector:
+    primary: "[data-testid='conversation-turn-last'] .markdown"
+    fallback_1: ".agent-turn .markdown"
+    fallback_2: "[class*='response'] [class*='markdown']"
+  format: html
+  citations:
+    enabled: true
+    badge_selector: "a[class*='citation']"
+    link_selector: "a[href^='http']"
+  validation:
+    min_length: 1000
+    required_sections:
+      - "Sources"
+    truncation_markers:
+      - "..."
+      - "Show more"
+      - "Continue reading"

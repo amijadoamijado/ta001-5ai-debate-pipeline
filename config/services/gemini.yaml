@@ -1,0 +1,187 @@
+# Gemini Deep Think 操作レシピ
+# Google Web Components + Shadow DOM 対応
+
+service_name: gemini
+display_name: Gemini Deep Think
+base_url: https://gemini.google.com
+
+auth:
+  storage_state_path: .storage/gemini-state.json
+  session_storage_path: .storage/gemini-session-storage.json
+  health_check_selector: "img[alt*='Google Account']"
+  login_url: https://accounts.google.com
+
+rate_limit:
+  min_interval_ms: 600000  # 10分間隔
+  max_per_day: 5
+  backoff_multiplier: 2.0
+
+selectors:
+  input_field:
+    primary: "[role='textbox'][contenteditable='true']"
+    fallback_1: "rich-textarea >> [contenteditable='true']"
+    fallback_2: ".ql-editor"
+    fallback_3: "textarea"
+  model_selector:
+    primary: "button:has-text('Gemini')"
+    fallback_1: "[data-test-id='model-selector']"
+    fallback_2: "[aria-label*='model']"
+  model_option:
+    primary: "[role='option']:has-text('Pro')"
+    fallback_1: "text=Gemini 2.5 Pro"
+    fallback_2: "[data-value*='pro']"
+  deep_think_toggle:
+    primary: "button:has-text('Deep Think')"
+    fallback_1: "[aria-label*='Deep Think']"
+    fallback_2: "[data-test-id='thinking-toggle']"
+    fallback_3: "mat-slide-toggle:has-text('Think')"
+  send_button:
+    primary: "button[aria-label='Send message']"
+    fallback_1: "button:has-text('Send')"
+    fallback_2: "[data-test-id='send-button']"
+  response_container:
+    primary: ".response-content .markdown-main-panel"
+    fallback_1: "message-content >> .markdown"
+    fallback_2: "[class*='response'] [class*='content']"
+    fallback_3: ".model-response-text"
+  streaming_indicator:
+    primary: ".thinking-indicator"
+    fallback_1: "[class*='loading']"
+    fallback_2: "[class*='generating']"
+  action_buttons:
+    primary: "button[aria-label='Copy']"
+    fallback_1: "button:has-text('Copy')"
+    fallback_2: "[data-test-id='copy-button']"
+
+operation_steps:
+  - name: navigate_to_gemini
+    action: navigate
+    value: https://gemini.google.com
+    timeout: 30000
+    screenshot: true
+    description: Geminiメイン画面に遷移
+
+  - name: verify_session
+    action: check_visible
+    selector:
+      primary: "img[alt*='Google Account']"
+      fallback_1: "[data-test-id='user-avatar']"
+    timeout: 10000
+    description: Googleセッション有効性チェック
+
+  - name: select_model
+    action: click
+    selector:
+      primary: "button:has-text('Gemini')"
+      fallback_1: "[data-test-id='model-selector']"
+    timeout: 5000
+    optional: true
+    description: モデルセレクタを開く
+
+  - name: choose_pro_model
+    action: click
+    selector:
+      primary: "[role='option']:has-text('Pro')"
+      fallback_1: "text=Gemini 2.5 Pro"
+    timeout: 5000
+    optional: true
+    description: Gemini Pro モデルを選択
+
+  - name: enable_deep_think
+    action: toggle
+    selector:
+      primary: "button:has-text('Deep Think')"
+      fallback_1: "[aria-label*='Deep Think']"
+      fallback_2: "[data-test-id='thinking-toggle']"
+    timeout: 5000
+    screenshot: true
+    description: Deep Thinkモードを有効化
+
+  - name: input_prompt
+    action: keyboard_type
+    selector:
+      primary: "[role='textbox'][contenteditable='true']"
+      fallback_1: "rich-textarea >> [contenteditable='true']"
+    timeout: 10000
+    description: プロンプト入力
+
+  - name: send_prompt
+    action: click
+    selector:
+      primary: "button[aria-label='Send message']"
+      fallback_1: "button:has-text('Send')"
+    timeout: 5000
+    screenshot: true
+    description: プロンプト送信
+
+  - name: wait_for_completion
+    action: wait
+    timeout: 1200000  # 20分
+    description: Deep Think完了待機
+
+  - name: extract_response
+    action: extract
+    selector:
+      primary: ".response-content .markdown-main-panel"
+      fallback_1: "message-content >> .markdown"
+    screenshot: true
+    description: レスポンス抽出
+
+completion_detection:
+  layers:
+    - mutation_observer
+    - stabilization
+  mutation_observer:
+    streaming_class: "thinking-indicator"
+    completion_indicators:
+      - ".thinking-indicator:not(:visible)"
+      - "button[aria-label='Copy']"
+    action_buttons:
+      - "button:has-text('Copy')"
+      - "button:has-text('Share')"
+  stabilization:
+    selector: ".response-content .markdown-main-panel"
+    stability_threshold_ms: 8000
+    poll_interval_ms: 2000
+    max_timeout_ms: 1200000
+  adaptive_polling:
+    initial_interval_ms: 3000
+    multiplier: 1.5
+    max_interval_ms: 20000
+
+error_patterns:
+  - name: error_occurred
+    selector: "text=An error occurred"
+    recovery_action: retry
+  - name: try_again
+    selector: "button:has-text('Try again')"
+    recovery_action: retry
+  - name: rate_limit
+    selector: "text=Too many requests"
+    recovery_action: screenshot_escalate
+  - name: subscription_required
+    selector: "text=upgrade your plan"
+    recovery_action: screenshot_escalate
+
+captcha_detection:
+  selectors:
+    - "iframe[src*='recaptcha']"
+    - "[id*='captcha']"
+    - "iframe[src*='accounts.google.com/v3']"
+  escalation:
+    screenshot: true
+    timeout_ms: 1800000
+
+output_extraction:
+  response_selector:
+    primary: ".response-content .markdown-main-panel"
+    fallback_1: "message-content >> .markdown"
+    fallback_2: "[class*='response'] [class*='content']"
+  format: html
+  citations:
+    enabled: false
+  validation:
+    min_length: 500
+    truncation_markers:
+      - "..."
+      - "Show more"

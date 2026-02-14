@@ -1,0 +1,190 @@
+# Perplexity Deep Research 操作レシピ
+# Next.js + React - 処理時間最短、引用保持が重要
+
+service_name: perplexity
+display_name: Perplexity Deep Research
+base_url: https://www.perplexity.ai
+
+auth:
+  storage_state_path: .storage/perplexity-state.json
+  session_storage_path: .storage/perplexity-session-storage.json
+  health_check_selector: "[data-testid='user-menu']"
+  login_url: https://www.perplexity.ai/login
+
+rate_limit:
+  min_interval_ms: 120000  # 2分間隔
+  max_per_day: 50
+  backoff_multiplier: 2.0
+
+selectors:
+  input_field:
+    primary: "textarea[placeholder*='Ask']"
+    fallback_1: "[data-testid='search-input']"
+    fallback_2: "textarea"
+    fallback_3: "[role='textbox']"
+  mode_selector:
+    primary: "button:has-text('Research')"
+    fallback_1: "[data-testid='focus-selector']"
+    fallback_2: "[aria-label*='mode']"
+  research_mode:
+    primary: "button:has-text('Research')"
+    fallback_1: "[data-testid='research-mode']"
+    fallback_2: "text=Deep Research"
+  send_button:
+    primary: "button[aria-label='Submit']"
+    fallback_1: "[data-testid='submit-button']"
+    fallback_2: "button[type='submit']"
+    fallback_3: "button:has(svg[class*='arrow'])"
+  response_container:
+    primary: "[data-testid='answer-content']"
+    fallback_1: ".prose"
+    fallback_2: "[class*='answer'] [class*='content']"
+    fallback_3: ".markdown-content"
+  researching_indicator:
+    primary: "text=Researching"
+    fallback_1: "[class*='searching']"
+    fallback_2: "[data-testid='progress-indicator']"
+  streaming_indicator:
+    primary: "[class*='streaming']"
+    fallback_1: "[data-testid='generating']"
+    fallback_2: ".animate-pulse"
+  citation_badge:
+    primary: "button[class*='citation']"
+    fallback_1: "a[class*='citation']"
+    fallback_2: "sup a[href^='#']"
+  citation_link:
+    primary: "[data-testid='source-item'] a"
+    fallback_1: ".source-list a[href^='http']"
+    fallback_2: "[class*='sources'] a[href^='http']"
+  action_buttons:
+    primary: "button:has-text('Copy')"
+    fallback_1: "[data-testid='copy-button']"
+    fallback_2: "button[aria-label='Copy']"
+  sources_section:
+    primary: "[data-testid='sources-section']"
+    fallback_1: "[class*='sources']"
+    fallback_2: ".source-list"
+
+operation_steps:
+  - name: navigate_to_perplexity
+    action: navigate
+    value: https://www.perplexity.ai
+    timeout: 30000
+    screenshot: true
+    description: Perplexityメイン画面に遷移
+
+  - name: verify_session
+    action: check_visible
+    selector:
+      primary: "[data-testid='user-menu']"
+      fallback_1: "button[aria-label='User menu']"
+    timeout: 10000
+    description: セッション有効性チェック
+
+  - name: select_research_mode
+    action: click
+    selector:
+      primary: "button:has-text('Research')"
+      fallback_1: "[data-testid='focus-selector']"
+    timeout: 5000
+    screenshot: true
+    description: Researchモードを選択
+
+  - name: input_query
+    action: type
+    selector:
+      primary: "textarea[placeholder*='Ask']"
+      fallback_1: "[data-testid='search-input']"
+      fallback_2: "textarea"
+    timeout: 10000
+    description: クエリ入力
+
+  - name: send_query
+    action: click
+    selector:
+      primary: "button[aria-label='Submit']"
+      fallback_1: "[data-testid='submit-button']"
+      fallback_2: "button[type='submit']"
+    timeout: 5000
+    screenshot: true
+    description: クエリ送信
+
+  - name: wait_for_completion
+    action: wait
+    timeout: 480000  # 8分
+    description: Deep Research完了待機
+
+  - name: extract_response
+    action: extract
+    selector:
+      primary: "[data-testid='answer-content']"
+      fallback_1: ".prose"
+    screenshot: true
+    description: レポート＋引用リンク抽出
+
+completion_detection:
+  layers:
+    - mutation_observer
+    - stabilization
+  mutation_observer:
+    streaming_class: "streaming"
+    completion_indicators:
+      - "[class*='streaming']:not(:visible)"
+      - "button:has-text('Copy')"
+      - "[data-testid='sources-section']"
+    action_buttons:
+      - "button:has-text('Copy')"
+      - "button:has-text('Share')"
+      - "button:has-text('Rewrite')"
+  stabilization:
+    selector: "[data-testid='answer-content']"
+    stability_threshold_ms: 3000
+    poll_interval_ms: 1000
+    max_timeout_ms: 480000
+  adaptive_polling:
+    initial_interval_ms: 2000
+    multiplier: 1.3
+    max_interval_ms: 8000
+
+error_patterns:
+  - name: error_occurred
+    selector: "text=Something went wrong"
+    recovery_action: retry
+  - name: rate_limit
+    selector: "text=limit reached"
+    recovery_action: screenshot_escalate
+  - name: try_again
+    selector: "button:has-text('Try again')"
+    recovery_action: retry
+  - name: pro_required
+    selector: "text=Upgrade to Pro"
+    recovery_action: screenshot_escalate
+
+captcha_detection:
+  selectors:
+    - "iframe[src*='recaptcha']"
+    - "div.cf-turnstile"
+    - "[id*='challenge']"
+  escalation:
+    screenshot: true
+    timeout_ms: 1800000
+
+output_extraction:
+  response_selector:
+    primary: "[data-testid='answer-content']"
+    fallback_1: ".prose"
+    fallback_2: "[class*='answer'] [class*='content']"
+  format: html
+  citations:
+    enabled: true
+    badge_selector: "button[class*='citation']"
+    link_selector: "[data-testid='source-item'] a[href^='http']"
+  validation:
+    min_length: 800
+    required_sections:
+      - "Sources"
+    truncation_markers:
+      - "..."
+      - "Show more"
+      - "View more sources"
+    citation_continuity: true
