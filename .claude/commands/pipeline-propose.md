@@ -13,6 +13,20 @@
 
 ## 実行手順
 
+### Step 0: エンフォースメントチェック（`.claude/rules/pipeline/enforcement.md` 準拠）
+
+**以下のチェックを全て通過しなければ、本フェーズの実行に進んではならない。**
+
+1. `pipeline-state.json` を読み込む
+2. Phase 0 の `status` が `completed` であることを確認
+3. 以下の必須入力ファイルが存在し、サイズ > 0 であることを確認:
+   - `.kiro/ai-coordination/workflow/research/{project_id}/phase0_research_integrated.json`
+4. `phase0_research_integrated.json` が有効なJSONであることをパース確認
+
+**不合格時**: 実行を中止し、不合格理由を表示。「`/pipeline:research {project_id}` を先に実行してください」と案内。
+
+---
+
 1. **フェーズ状態チェック**
    - 案件IDの `pipeline-state.json` を確認し、Phase 0が完了しているか確認します。未完了の場合はエラーを表示します。
 
@@ -32,8 +46,20 @@
    - 生成されたJSONセクションを `phase1_proposal.json` として保存します。
    - 生成されたMarkdownセクションを `phase1_proposal.md` として保存します。
 
-6. **完了処理**
-   - `pipeline-state.json` の `phase1` を `completed` に更新。
+6. **出力検証（完了前バリデーション）**
+
+   以下のチェックを全て通過しなければ、フェーズを `completed` にしてはならない。
+
+   - [ ] `phase1_proposal.json` が有効なJSONであること
+   - [ ] `weakest_point_identified` が存在し、`target_phase`, `claim`, `weakness`, `severity` が全て非空
+   - [ ] `disagreements` が配列として存在（空配列の場合は理由が明記されていること）
+   - [ ] `verification_method` が存在し、`approach`, `tools_used`, `limitations` が全て非空
+   - [ ] `phase1_proposal.md` が生成されていること
+
+   **不合格時**: `pipeline-state.json` の `phase1` を `failed` に設定し、エラー内容を `error` フィールドに記録。
+
+7. **完了処理**
+   - 出力検証に合格した場合のみ、`pipeline-state.json` の `phase1` を `completed` に更新。
    - `handoff-log.json` に `phase1_proposal` を記録。
 
 ## 出力フォーマット

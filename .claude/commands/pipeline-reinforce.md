@@ -14,6 +14,21 @@
 
 ## 実行手順
 
+### Step 0: エンフォースメントチェック（`.claude/rules/pipeline/enforcement.md` 準拠）
+
+**以下のチェックを全て通過しなければ、本フェーズの実行に進んではならない。**
+
+1. `pipeline-state.json` を読み込む
+2. Phase 1 の `status` が `completed` であることを確認
+3. 以下の必須入力ファイルが存在し、サイズ > 0 であることを確認:
+   - `.kiro/ai-coordination/workflow/research/{project_id}/phase1_proposal.json`
+   - `.kiro/ai-coordination/workflow/research/{project_id}/phase0_codex_research.json`
+4. 上記JSONが有効であることをパース確認
+
+**不合格時**: 実行を中止し、不合格理由を表示。「`/pipeline:propose {project_id}` を先に実行してください」と案内。
+
+---
+
 1. **フェーズ状態チェック**
    - 案件IDの `pipeline-state.json` を確認し、Phase 1が完了しているか確認します。
 
@@ -46,8 +61,20 @@
    - 生成されたJSONセクションを `phase2_reinforcement.json` として保存します。
    - 生成されたMarkdownセクションを `phase2_reinforcement.md` として保存します。
 
-7. **完了処理**
-   - `pipeline-state.json` の `phase2` を `completed` に更新。
+7. **出力検証（完了前バリデーション）**
+
+   以下のチェックを全て通過しなければ、フェーズを `completed` にしてはならない。
+
+   - [ ] `phase2_reinforcement.json` が有効なJSONであること
+   - [ ] `weakest_point_identified` が存在し、全サブフィールド非空
+   - [ ] `disagreements` が配列として存在（空配列の場合は理由が明記されていること）
+   - [ ] `verification_method` が存在し、全サブフィールド非空
+   - [ ] `phase2_reinforcement.md` が生成されていること
+
+   **不合格時**: `pipeline-state.json` の `phase2` を `failed` に設定し、エラー内容を `error` フィールドに記録。
+
+8. **完了処理**
+   - 出力検証に合格した場合のみ、`pipeline-state.json` の `phase2` を `completed` に更新。
    - `handoff-log.json` に `phase2_reinforcement` を記録。
 
 ## 出力フォーマット

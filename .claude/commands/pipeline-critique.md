@@ -13,6 +13,21 @@
 
 ## 実行手順
 
+### Step 0: エンフォースメントチェック（`.claude/rules/pipeline/enforcement.md` 準拠）
+
+**以下のチェックを全て通過しなければ、本フェーズの実行に進んではならない。**
+
+1. `pipeline-state.json` を読み込む
+2. Phase 2 の `status` が `completed` であることを確認
+3. 以下の必須入力ファイルが存在し、サイズ > 0 であることを確認:
+   - `.kiro/ai-coordination/workflow/research/{project_id}/phase1_proposal.json`
+   - `.kiro/ai-coordination/workflow/research/{project_id}/phase2_reinforcement.json`
+4. 上記JSONが有効であることをパース確認
+
+**不合格時**: 実行を中止し、不合格理由を表示。「`/pipeline:reinforce {project_id}` を先に実行してください」と案内。
+
+---
+
 1. **フェーズ状態チェック**
    - 案件IDの `pipeline-state.json` を確認し、Phase 2が完了しているか確認します。
 
@@ -41,8 +56,23 @@
    - 生成されたJSONセクションを `phase3_critique.json` として保存します。
    - 生成されたMarkdownセクションを `phase3_critique.md` として保存します。
 
-7. **完了処理**
-   - `pipeline-state.json` の `phase3` を `completed` に更新。
+7. **出力検証（完了前バリデーション）**
+
+   以下のチェックを全て通過しなければ、フェーズを `completed` にしてはならない。
+
+   - [ ] `phase3_critique.json` が有効なJSONであること
+   - [ ] `weakest_point_identified` が存在し、全サブフィールド非空
+   - [ ] `disagreements` が配列として存在
+   - [ ] `verification_method` が存在し、全サブフィールド非空
+   - [ ] **失敗シナリオが3件以上**含まれていること（REQ-001.4）
+   - [ ] リスク評価に定量値（likelihood × impact）が含まれていること
+   - [ ] 反証が1件以上の具体的根拠を含むこと
+   - [ ] `phase3_critique.md` が生成されていること
+
+   **不合格時**: `pipeline-state.json` の `phase3` を `failed` に設定し、エラー内容を `error` フィールドに記録。
+
+8. **完了処理**
+   - 出力検証に合格した場合のみ、`pipeline-state.json` の `phase3` を `completed` に更新。
    - `handoff-log.json` に `phase3_critique` を記録。
 
 ## 出力フォーマット

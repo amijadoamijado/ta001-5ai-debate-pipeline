@@ -21,15 +21,24 @@
 2. **ステータス更新**
    - `pipeline-state.json` の `case_type` を設定し、`status` を `running` に更新します。
 
-3. **自動チェーン実行 (Phase 0 〜 4)**
-   以下の順序で各フェーズのコマンドを呼び出します。各フェーズ完了後、`pipeline-state.json` を確認し、成功していれば次へ進みます。既に `completed` になっているフェーズはスキップします。
+3. **自動チェーン実行 (Phase 0 〜 4)（`.claude/rules/pipeline/enforcement.md` Rule 5 準拠）**
 
-   - **Phase 0 (Research)**: `/pipeline:research {project_id} {case_type}`
-   - **Phase 1 (Proposal)**: `/pipeline:propose {project_id}`
-   - **Phase 2 (Reinforcement)**: `/pipeline:reinforce {project_id}`
-   - **Phase 3 (Critique)**: `/pipeline:critique {project_id}`
-   - **Phase 3.5 (Historical)**: `/pipeline:history {project_id}`
-   - **Phase 4 (Integration)**: `/pipeline:integrate {project_id}`
+   以下の順序で各フェーズのコマンドを呼び出します。各フェーズ完了後、**バリデーションゲート**を通過してから次へ進みます。既に `completed` になっているフェーズはスキップします。
+
+   各フェーズ完了後のバリデーションゲート:
+   1. 出力ファイル存在チェック → 欠落なら**停止**
+   2. 出力スキーマ検証（enforcement.md Rule 2） → BLOCK判定なら**停止**
+   3. 知的誠実性検証（enforcement.md Rule 3） → BLOCK判定なら**停止**
+   4. `pipeline-state.json` 更新確認 → 更新なしなら**停止**
+   5. 全チェック合格 → 次フェーズへ自動進行
+
+   フェーズ実行順序:
+   - **Phase 0 (Research)**: `/pipeline:research {project_id} {case_type}` → バリデーションゲート
+   - **Phase 1 (Proposal)**: `/pipeline:propose {project_id}` → バリデーションゲート
+   - **Phase 2 (Reinforcement)**: `/pipeline:reinforce {project_id}` → バリデーションゲート
+   - **Phase 3 (Critique)**: `/pipeline:critique {project_id}` → バリデーションゲート
+   - **Phase 3.5 (Historical)**: `/pipeline:history {project_id}` → バリデーションゲート
+   - **Phase 4 (Integration)**: `/pipeline:integrate {project_id}` → 最終検証
 
 4. **完了処理**
    - 全フェーズが正常終了した場合：

@@ -89,8 +89,21 @@
    - **死角分析**: 各AIの `gaps` をマージし、共通する「未解決課題（Blind Spots）」を特定。
    - 統合された結果を `phase0_research_integrated.json` として保存。
 
-5. **完了処理**
-   - `pipeline-state.json` の `phase0` を `completed` に更新。
+5. **出力検証（完了前バリデーション）**
+
+   以下のチェックを全て通過しなければ、フェーズを `completed` にしてはならない。
+
+   - [ ] `phase0_research_integrated.json` が有効なJSONであること
+   - [ ] ファイルサイズ > 0 であること
+   - [ ] `contradictions` フィールドが配列であること（存在推奨）
+   - [ ] `blind_spots` フィールドが配列であること（存在推奨）
+   - [ ] `research_quality` フィールドがオブジェクトであること（存在推奨）
+
+   **BLOCK条件**: JSONパース失敗 → `pipeline-state.json` の `phase0` を `failed` に設定。
+   **WARN条件**: 上記推奨フィールドの欠落 → 警告表示、続行可。
+
+6. **完了処理**
+   - 出力検証に合格した場合のみ、`pipeline-state.json` の `phase0` を `completed` に更新。
    - `handoff-log.json` に `phase0_research_complete` を記録。
 
 ## エラーハンドリング (M-002)
