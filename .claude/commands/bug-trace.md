@@ -1,4 +1,4 @@
----
+﻿---
 description: Bug Trace - 3-Agent parallel investigation for complex bugs
 allowed-tools: Read, Glob, Grep, Task, AskUserQuestion, TodoWrite
 ---
@@ -22,20 +22,13 @@ This command orchestrates **3 specialized agents** to investigate complex bugs i
 ### Investigation Pipeline
 ```
 Step 1: Error Collection + Past Bug Search
-    ↓
-Step 2: 3-Agent Parallel Investigation
-    ↓
-Step 2.5: Ultrathink Synthesis + Divergence Classification  ← NEW in v2.4
-    ↓
-    ├─ Code Defect → Step 3: Visual Flow Diagrams
-    │                    ↓
-    │               Steps 4-7: Hypothesis → Solution → Fix
-    │                    ↓
-    │               Step 8: Bug Report Generation
-    │
-    └─ Spec Defect → Step 2.6: Spec Update Proposal  ← NEW in v2.4
-                         ↓
-                    Spec Updated → End
+    竊・Step 2: 3-Agent Parallel Investigation
+    竊・Step 2.5: Ultrathink Synthesis + Divergence Classification  竊・NEW in v2.4
+    竊・    笏懌楳 Code Defect 竊・Step 3: Visual Flow Diagrams
+    笏・                   竊・    笏・              Steps 4-7: Hypothesis 竊・Solution 竊・Fix
+    笏・                   竊・    笏・              Step 8: Bug Report Generation
+    笏・    笏披楳 Spec Defect 竊・Step 2.6: Spec Update Proposal  竊・NEW in v2.4
+                         竊・                    Spec Updated 竊・End
 ```
 
 ### Agent Roles
@@ -48,7 +41,7 @@ Step 2.5: Ultrathink Synthesis + Divergence Classification  ← NEW in v2.4
 
 ### New in v2.0
 - **Ultrathink Synthesis**: Deep analysis of 3-agent findings with cross-referencing
-- **ASCII Flow Diagrams**: Visual representation of error flow (Input → Process → Error)
+- **ASCII Flow Diagrams**: Visual representation of error flow (Input 竊・Process 竊・Error)
 - **Reverse Trace Diagrams**: Error backtracking visualization
 - **Divergence Analysis Box**: Side-by-side Expected vs Actual comparison
 
@@ -87,10 +80,10 @@ Step 2.5: Ultrathink Synthesis + Divergence Classification  ← NEW in v2.4
 
 | Step | Section | Required Output |
 |------|---------|-----------------|
-| Step 2.5 | Ultrathink Synthesis | `📝 **統合分析解説**` |
-| Step 3 | Error Flow Diagram | `📝 **フロー解説**` |
-| Step 3 | Reverse Trace | `📝 **逆追跡解説**` |
-| Step 3 | Divergence Analysis | `📝 **乖離分析解説**` |
+| Step 2.5 | Ultrathink Synthesis | `統 **邨ｱ蜷亥・譫占ｧ｣隱ｬ**` |
+| Step 3 | Error Flow Diagram | `統 **繝輔Ο繝ｼ隗｣隱ｬ**` |
+| Step 3 | Reverse Trace | `統 **騾・ｿｽ霍｡隗｣隱ｬ**` |
+| Step 3 | Divergence Analysis | `統 **荵夜屬蛻・梵隗｣隱ｬ**` |
 
 **RULE: A Step is NOT complete until its Japanese explanation is output.**
 
@@ -120,13 +113,13 @@ $ARGUMENTS
 **When related bugs are found, output:**
 
 ```markdown
-📚 **過去の関連バグ**
+答 **驕主悉縺ｮ髢｢騾｣繝舌げ**
 
-| Bug ID | タイトル | 関連度 |
+| Bug ID | 繧ｿ繧､繝医Ν | 髢｢騾｣蠎ｦ |
 |--------|---------|--------|
-| [BUG-XXX-NNN-XXXXXXXXXXXX] | [タイトル] | 高/中/低 |
+| [BUG-XXX-NNN-XXXXXXXXXXXX] | [繧ｿ繧､繝医Ν] | 鬮・荳ｭ/菴・|
 
-**参考情報**: [過去の根本原因や解決策のサマリー]
+**蜿り・ュ蝣ｱ**: [驕主悉縺ｮ譬ｹ譛ｬ蜴溷屏繧・ｧ｣豎ｺ遲悶・繧ｵ繝槭Μ繝ｼ]
 ```
 
 ### 1.2 Error Information Collection
@@ -165,7 +158,7 @@ Options:
 ### Agent 1: Spec Agent (Specification Investigator)
 ```
 Prompt:
-You are investigating a bug. Read all relevant specification files in .kiro/specs/.
+You are investigating a bug. Read all relevant specification files in .sd/specs/.
 Focus on:
 - Expected behavior for this feature
 - Input/output specifications
@@ -244,34 +237,33 @@ For each hypothesis:
 ### Investigation Confidence: [High/Medium/Low]
 ```
 
-#### 日本語解説（Ultrathink Synthesis）
-
-**必ず統合分析の後に以下の形式で日本語解説を追加すること：**
+#### 譌･譛ｬ隱櫁ｧ｣隱ｬ・・ltrathink Synthesis・・
+**蠢・★邨ｱ蜷亥・譫舌・蠕後↓莉･荳九・蠖｢蠑上〒譌･譛ｬ隱櫁ｧ｣隱ｬ繧定ｿｽ蜉縺吶ｋ縺薙→・・*
 
 ```markdown
-📝 **統合分析解説**
+統 **邨ｱ蜷亥・譫占ｧ｣隱ｬ**
 
-**3エージェントの調査結果:**
+**3繧ｨ繝ｼ繧ｸ繧ｧ繝ｳ繝医・隱ｿ譟ｻ邨先棡:**
 
-| エージェント | 発見内容 | 信頼度 |
+| 繧ｨ繝ｼ繧ｸ繧ｧ繝ｳ繝・| 逋ｺ隕句・螳ｹ | 菫｡鬆ｼ蠎ｦ |
 |-------------|---------|--------|
-| 仕様調査 | [仕様書から判明したこと] | 高/中/低 |
-| コード調査 | [実装から判明したこと] | 高/中/低 |
-| 解決策立案 | [提案された仮説] | 高/中/低 |
+| 莉墓ｧ倩ｪｿ譟ｻ | [莉墓ｧ俶嶌縺九ｉ蛻､譏弱＠縺溘％縺ｨ] | 鬮・荳ｭ/菴・|
+| 繧ｳ繝ｼ繝芽ｪｿ譟ｻ | [螳溯｣・°繧牙愛譏弱＠縺溘％縺ｨ] | 鬮・荳ｭ/菴・|
+| 隗｣豎ｺ遲也ｫ区｡・| [謠先｡医＆繧後◆莉ｮ隱ｬ] | 鬮・荳ｭ/菴・|
 
-**エージェント間の整合性:**
-- **一致点**: [全エージェントが合意した内容]
-- **相違点**: [エージェント間で見解が異なる点]
-- **未調査領域**: [調査が不足している領域]
+**繧ｨ繝ｼ繧ｸ繧ｧ繝ｳ繝磯俣縺ｮ謨ｴ蜷域ｧ:**
+- **荳閾ｴ轤ｹ**: [蜈ｨ繧ｨ繝ｼ繧ｸ繧ｧ繝ｳ繝医′蜷域э縺励◆蜀・ｮｹ]
+- **逶ｸ驕慕せ**: [繧ｨ繝ｼ繧ｸ繧ｧ繝ｳ繝磯俣縺ｧ隕玖ｧ｣縺檎焚縺ｪ繧狗せ]
+- **譛ｪ隱ｿ譟ｻ鬆伜沺**: [隱ｿ譟ｻ縺御ｸ崎ｶｳ縺励※縺・ｋ鬆伜沺]
 
-**🔍 根本原因（確定/推定）:**
-[1-2文で根本原因を平易な日本語で説明]
+**剥 譬ｹ譛ｬ蜴溷屏・育｢ｺ螳・謗ｨ螳夲ｼ・**
+[1-2譁・〒譬ｹ譛ｬ蜴溷屏繧貞ｹｳ譏薙↑譌･譛ｬ隱槭〒隱ｬ譏讃
 
-**なぜこの問題が発生したか:**
-[技術的な原因を非エンジニアにもわかるように説明]
+**縺ｪ縺懊％縺ｮ蝠城｡後′逋ｺ逕溘＠縺溘°:**
+[謚陦鍋噪縺ｪ蜴溷屏繧帝撼繧ｨ繝ｳ繧ｸ繝九い縺ｫ繧ゅｏ縺九ｋ繧医≧縺ｫ隱ｬ譏讃
 
-**推奨される修正方針:**
-[どのような方向で修正すべきか]
+**謗ｨ螂ｨ縺輔ｌ繧倶ｿｮ豁｣譁ｹ驥・**
+[縺ｩ縺ｮ繧医≧縺ｪ譁ｹ蜷代〒菫ｮ豁｣縺吶∋縺阪°]
 ```
 
 ### Divergence Classification (MANDATORY)
@@ -280,37 +272,34 @@ For each hypothesis:
 
 | Classification | Condition | Next Action |
 |----------------|-----------|-------------|
-| **Code Defect** | Spec is current and clear, Code deviates | Step 4 → Fix Plan |
-| **Spec Defect** | Code behavior is reasonable, Spec is outdated/ambiguous | Step 2.6 → Spec Update Proposal |
+| **Code Defect** | Spec is current and clear, Code deviates | Step 4 竊・Fix Plan |
+| **Spec Defect** | Code behavior is reasonable, Spec is outdated/ambiguous | Step 2.6 竊・Spec Update Proposal |
 | **Both Defect** | Issues in both Spec and Code | Prioritize and address both |
 | **Ambiguous** | Cannot determine | User confirmation required |
 
 **Classification Criteria:**
 
 ```markdown
-### 乖離分類 (Divergence Classification)
+### 荵夜屬蛻・｡・(Divergence Classification)
 
-**判定結果**: [Code Defect / Spec Defect / Both Defect / Ambiguous]
+**蛻､螳夂ｵ先棡**: [Code Defect / Spec Defect / Both Defect / Ambiguous]
 
-**判定根拠:**
+**蛻､螳壽ｹ諡:**
 
-| 基準 | 評価 |
+| 蝓ｺ貅・| 隧穂ｾ｡ |
 |------|------|
-| 仕様書の最終更新日 | [YYYY-MM-DD] |
-| コードの最終変更日 | [YYYY-MM-DD] |
-| コードの動作は「意図的改善」か「バグ」か | [改善 / バグ / 不明] |
-| 他コードとの整合性 | [高 / 低] |
-| ビジネスロジックの妥当性 | [コードが妥当 / 仕様が妥当 / 不明] |
+| 莉墓ｧ俶嶌縺ｮ譛邨よ峩譁ｰ譌･ | [YYYY-MM-DD] |
+| 繧ｳ繝ｼ繝峨・譛邨ょ､画峩譌･ | [YYYY-MM-DD] |
+| 繧ｳ繝ｼ繝峨・蜍穂ｽ懊・縲梧э蝗ｳ逧・隼蝟・阪°縲後ヰ繧ｰ縲阪° | [謾ｹ蝟・/ 繝舌げ / 荳肴・] |
+| 莉悶さ繝ｼ繝峨→縺ｮ謨ｴ蜷域ｧ | [鬮・/ 菴讃 |
+| 繝薙ず繝阪せ繝ｭ繧ｸ繝・け縺ｮ螯･蠖捺ｧ | [繧ｳ繝ｼ繝峨′螯･蠖・/ 莉墓ｧ倥′螯･蠖・/ 荳肴・] |
 
-**分類の理由:**
-[1-2文で分類理由を説明]
+**蛻・｡槭・逅・罰:**
+[1-2譁・〒蛻・｡樒炊逕ｱ繧定ｪｬ譏讃
 
-**推奨アクション:**
-- Code Defect → Step 4に進んでコード修正計画
-- Spec Defect → Step 2.6に進んで仕様書更新提案
-- Both Defect → 優先順位をつけて両方対応
-- Ambiguous → ユーザーに確認
-```
+**謗ｨ螂ｨ繧｢繧ｯ繧ｷ繝ｧ繝ｳ:**
+- Code Defect 竊・Step 4縺ｫ騾ｲ繧薙〒繧ｳ繝ｼ繝我ｿｮ豁｣險育判
+- Spec Defect 竊・Step 2.6縺ｫ騾ｲ繧薙〒莉墓ｧ俶嶌譖ｴ譁ｰ謠先｡・- Both Defect 竊・蜆ｪ蜈磯・ｽ阪ｒ縺､縺代※荳｡譁ｹ蟇ｾ蠢・- Ambiguous 竊・繝ｦ繝ｼ繧ｶ繝ｼ縺ｫ遒ｺ隱・```
 
 **Use AskUserQuestion:**
 
@@ -332,29 +321,29 @@ Options:
 ### Spec Update Proposal Format
 
 ```markdown
-## 仕様書更新提案 (Spec Update Proposal)
+## 莉墓ｧ俶嶌譖ｴ譁ｰ謠先｡・(Spec Update Proposal)
 
-### 更新対象
-- **ファイル**: [.kiro/specs/{feature}/requirements.md or design.md]
-- **セクション**: [Section name]
+### 譖ｴ譁ｰ蟇ｾ雎｡
+- **繝輔ぃ繧､繝ｫ**: [.sd/specs/{feature}/requirements.md or design.md]
+- **繧ｻ繧ｯ繧ｷ繝ｧ繝ｳ**: [Section name]
 
-### 現在の記述
+### 迴ｾ蝨ｨ縺ｮ險倩ｿｰ
 ```
 [Current spec text]
 ```
 
-### 提案する記述
+### 謠先｡医☆繧玖ｨ倩ｿｰ
 ```
 [Proposed new text]
 ```
 
-### 変更理由
+### 螟画峩逅・罰
 [Why the spec should be updated]
 
-### 影響範囲
-- 関連する要件: [REQ-XXX-NNN]
-- 影響を受けるコード: [file:line]
-- 関連テスト: [test file]
+### 蠖ｱ髻ｿ遽・峇
+- 髢｢騾｣縺吶ｋ隕∽ｻｶ: [REQ-XXX-NNN]
+- 蠖ｱ髻ｿ繧貞女縺代ｋ繧ｳ繝ｼ繝・ [file:line]
+- 髢｢騾｣繝・せ繝・ [test file]
 ```
 
 **Use AskUserQuestion:**
@@ -387,169 +376,84 @@ Options:
 **Generate a visual diagram showing the error trace:**
 
 ```
-┌─────────────────────────────────────────────────────────────────────────┐
-│                        ERROR FLOW DIAGRAM                               │
-├─────────────────────────────────────────────────────────────────────────┤
-│                                                                         │
-│  ┌──────────────────┐                                                   │
-│  │   INPUT SOURCE   │ ← [file/user input/API/data]                      │
-│  └────────┬─────────┘                                                   │
-│           │                                                             │
-│           ▼                                                             │
-│  ┌──────────────────┐                                                   │
-│  │   Process A      │ [function/module name]                            │
-│  │   ────────────   │                                                   │
-│  │   [description]  │                                                   │
-│  └────────┬─────────┘                                                   │
-│           │                                                             │
-│           ▼                                                             │
-│  ┌──────────────────┐                                                   │
-│  │   Process B      │ [function/module name]                            │
-│  │   ────────────   │                                                   │
-│  │   [description]  │                                                   │
-│  └────────┬─────────┘                                                   │
-│           │                                                             │
-│           ▼                                                             │
-│  ╔══════════════════╗                                                   │
-│  ║   ⚠ DIVERGENCE   ║ ← [Expected vs Actual]                            │
-│  ║   Process X      ║                                                   │
-│  ╚════════┬═════════╝                                                   │
-│           │                                                             │
-│           ▼                                                             │
-│  ┌──────────────────┐                                                   │
-│  │   Process Y      │                                                   │
-│  └────────┬─────────┘                                                   │
-│           │                                                             │
-│           ▼                                                             │
-│  ╔══════════════════╗                                                   │
-│  ║   ❌ ERROR       ║                                                   │
-│  ║   [error msg]    ║                                                   │
-│  ╚══════════════════╝                                                   │
-│                                                                         │
-└─────────────────────────────────────────────────────────────────────────┘
-```
+笏娯楳笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏・笏・                       ERROR FLOW DIAGRAM                               笏・笏懌楳笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏､
+笏・                                                                        笏・笏・ 笏娯楳笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏・                                                  笏・笏・ 笏・  INPUT SOURCE   笏・竊・[file/user input/API/data]                      笏・笏・ 笏披楳笏笏笏笏笏笏笏笏ｬ笏笏笏笏笏笏笏笏笏笏・                                                  笏・笏・          笏・                                                            笏・笏・          笆ｼ                                                             笏・笏・ 笏娯楳笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏・                                                  笏・笏・ 笏・  Process A      笏・[function/module name]                            笏・笏・ 笏・  笏笏笏笏笏笏笏笏笏笏笏笏   笏・                                                  笏・笏・ 笏・  [description]  笏・                                                  笏・笏・ 笏披楳笏笏笏笏笏笏笏笏ｬ笏笏笏笏笏笏笏笏笏笏・                                                  笏・笏・          笏・                                                            笏・笏・          笆ｼ                                                             笏・笏・ 笏娯楳笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏・                                                  笏・笏・ 笏・  Process B      笏・[function/module name]                            笏・笏・ 笏・  笏笏笏笏笏笏笏笏笏笏笏笏   笏・                                                  笏・笏・ 笏・  [description]  笏・                                                  笏・笏・ 笏披楳笏笏笏笏笏笏笏笏ｬ笏笏笏笏笏笏笏笏笏笏・                                                  笏・笏・          笏・                                                            笏・笏・          笆ｼ                                                             笏・笏・ 笊披武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶風                                                   笏・笏・ 笊・  笞 DIVERGENCE   笊・竊・[Expected vs Actual]                            笏・笏・ 笊・  Process X      笊・                                                  笏・笏・ 笊壺武笊絶武笊絶武笊絶武笊絶溌笊絶武笊絶武笊絶武笊絶武笊絶幅                                                   笏・笏・          笏・                                                            笏・笏・          笆ｼ                                                             笏・笏・ 笏娯楳笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏・                                                  笏・笏・ 笏・  Process Y      笏・                                                  笏・笏・ 笏披楳笏笏笏笏笏笏笏笏ｬ笏笏笏笏笏笏笏笏笏笏・                                                  笏・笏・          笏・                                                            笏・笏・          笆ｼ                                                             笏・笏・ 笊披武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶風                                                   笏・笏・ 笊・  笶・ERROR       笊・                                                  笏・笏・ 笊・  [error msg]    笊・                                                  笏・笏・ 笊壺武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶幅                                                   笏・笏・                                                                        笏・笏披楳笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏・```
 
-#### 日本語解説（Error Flow）
-
-**必ず図の下に以下の形式で日本語解説を追加すること：**
+#### 譌･譛ｬ隱櫁ｧ｣隱ｬ・・rror Flow・・
+**蠢・★蝗ｳ縺ｮ荳九↓莉･荳九・蠖｢蠑上〒譌･譛ｬ隱櫁ｧ｣隱ｬ繧定ｿｽ蜉縺吶ｋ縺薙→・・*
 
 ```markdown
-📝 **フロー解説**
+統 **繝輔Ο繝ｼ隗｣隱ｬ**
 
-1. **入力元**: [データの発生源を説明]
-2. **処理A**: [この処理が何をするか、正常動作時の挙動]
-3. **処理B**: [この処理が何をするか、正常動作時の挙動]
-4. **⚠️ 分岐点**: [ここで期待と実際が乖離した理由]
-5. **❌ エラー**: [最終的にどのようなエラーが発生したか]
+1. **蜈･蜉帛・**: [繝・・繧ｿ縺ｮ逋ｺ逕滓ｺ舌ｒ隱ｬ譏讃
+2. **蜃ｦ逅・**: [縺薙・蜃ｦ逅・′菴輔ｒ縺吶ｋ縺九∵ｭ｣蟶ｸ蜍穂ｽ懈凾縺ｮ謖吝虚]
+3. **蜃ｦ逅・**: [縺薙・蜃ｦ逅・′菴輔ｒ縺吶ｋ縺九∵ｭ｣蟶ｸ蜍穂ｽ懈凾縺ｮ謖吝虚]
+4. **笞・・蛻・ｲ千せ**: [縺薙％縺ｧ譛溷ｾ・→螳滄圀縺御ｹ夜屬縺励◆逅・罰]
+5. **笶・繧ｨ繝ｩ繝ｼ**: [譛邨ら噪縺ｫ縺ｩ縺ｮ繧医≧縺ｪ繧ｨ繝ｩ繝ｼ縺檎匱逕溘＠縺溘°]
 
-**なぜこのフローで問題が起きたか:**
-[1-2文で根本原因を平易な日本語で説明]
+**縺ｪ縺懊％縺ｮ繝輔Ο繝ｼ縺ｧ蝠城｡後′襍ｷ縺阪◆縺・**
+[1-2譁・〒譬ｹ譛ｬ蜴溷屏繧貞ｹｳ譏薙↑譌･譛ｬ隱槭〒隱ｬ譏讃
 ```
 
 ### Detailed Flow Table
 
 | Step | Component | File:Line | Input | Output | Status |
 |------|-----------|-----------|-------|--------|--------|
-| 1 | [name] | [file:line] | [input data] | [output data] | ✅ OK |
-| 2 | [name] | [file:line] | [input data] | [output data] | ✅ OK |
-| 3 | [name] | [file:line] | [input data] | [output data] | ⚠️ DIVERGE |
-| 4 | [name] | [file:line] | [input data] | [output data] | ❌ ERROR |
+| 1 | [name] | [file:line] | [input data] | [output data] | 笨・OK |
+| 2 | [name] | [file:line] | [input data] | [output data] | 笨・OK |
+| 3 | [name] | [file:line] | [input data] | [output data] | 笞・・DIVERGE |
+| 4 | [name] | [file:line] | [input data] | [output data] | 笶・ERROR |
 
 ### Reverse Trace (Error Backtrack Diagram)
 
 ```
-╔══════════════════════════════════════════════════════════════════════════╗
-║                      REVERSE TRACE (Error → Root)                        ║
-╠══════════════════════════════════════════════════════════════════════════╣
-║                                                                          ║
-║  ❌ ERROR: [full error message]                                          ║
-║     │                                                                    ║
-║     │ caused by                                                          ║
-║     ▼                                                                    ║
-║  ┌─────────────────────────────────────────────────────────────────────┐ ║
-║  │ Process X: [function name]                                          │ ║
-║  │ File: [file:line]                                                   │ ║
-║  │ Issue: [what went wrong here]                                       │ ║
-║  └─────────────────────────────────────────────────────────────────────┘ ║
-║     │                                                                    ║
-║     │ received bad input from                                            ║
-║     ▼                                                                    ║
-║  ┌─────────────────────────────────────────────────────────────────────┐ ║
-║  │ Process X-1: [function name]                                        │ ║
-║  │ File: [file:line]                                                   │ ║
-║  │ Issue: [what propagated the problem]                                │ ║
-║  └─────────────────────────────────────────────────────────────────────┘ ║
-║     │                                                                    ║
-║     │ originated from                                                    ║
-║     ▼                                                                    ║
-║  ╔═════════════════════════════════════════════════════════════════════╗ ║
-║  ║ 🔍 ROOT CAUSE                                                       ║ ║
-║  ║ Location: [file:line]                                               ║ ║
-║  ║ Description: [root cause description]                               ║ ║
-║  ╚═════════════════════════════════════════════════════════════════════╝ ║
-║                                                                          ║
-╚══════════════════════════════════════════════════════════════════════════╝
+笊披武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶風
+笊・                     REVERSE TRACE (Error 竊・Root)                        笊・笊笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊｣
+笊・                                                                         笊・笊・ 笶・ERROR: [full error message]                                          笊・笊・    笏・                                                                   笊・笊・    笏・caused by                                                          笊・笊・    笆ｼ                                                                    笊・笊・ 笏娯楳笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏・笊・笊・ 笏・Process X: [function name]                                          笏・笊・笊・ 笏・File: [file:line]                                                   笏・笊・笊・ 笏・Issue: [what went wrong here]                                       笏・笊・笊・ 笏披楳笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏・笊・笊・    笏・                                                                   笊・笊・    笏・received bad input from                                            笊・笊・    笆ｼ                                                                    笊・笊・ 笏娯楳笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏・笊・笊・ 笏・Process X-1: [function name]                                        笏・笊・笊・ 笏・File: [file:line]                                                   笏・笊・笊・ 笏・Issue: [what propagated the problem]                                笏・笊・笊・ 笏披楳笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏・笊・笊・    笏・                                                                   笊・笊・    笏・originated from                                                    笊・笊・    笆ｼ                                                                    笊・笊・ 笊披武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊・笊・笊・ 笊・剥 ROOT CAUSE                                                       笊・笊・笊・ 笊・Location: [file:line]                                               笊・笊・笊・ 笊・Description: [root cause description]                               笊・笊・笊・ 笊壺武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊・笊・笊・                                                                         笊・笊壺武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶幅
 ```
 
-#### 日本語解説（Reverse Trace）
-
-**必ず図の下に以下の形式で日本語解説を追加すること：**
+#### 譌･譛ｬ隱櫁ｧ｣隱ｬ・・everse Trace・・
+**蠢・★蝗ｳ縺ｮ荳九↓莉･荳九・蠖｢蠑上〒譌･譛ｬ隱櫁ｧ｣隱ｬ繧定ｿｽ蜉縺吶ｋ縺薙→・・*
 
 ```markdown
-📝 **逆追跡解説**
+統 **騾・ｿｽ霍｡隗｣隱ｬ**
 
-**エラーから根本原因への道筋:**
+**繧ｨ繝ｩ繝ｼ縺九ｉ譬ｹ譛ｬ蜴溷屏縺ｸ縺ｮ驕鍋ｭ・**
 
-1. **❌ 発生したエラー**: [エラーメッセージの意味を日本語で説明]
-2. **直接の原因**: [エラーを引き起こした直接の処理とその問題点]
-3. **間接の原因**: [なぜその処理が問題を起こしたか、上流の問題]
-4. **🔍 根本原因**: [最終的な原因を1-2文で説明]
+1. **笶・逋ｺ逕溘＠縺溘お繝ｩ繝ｼ**: [繧ｨ繝ｩ繝ｼ繝｡繝・そ繝ｼ繧ｸ縺ｮ諢丞袖繧呈律譛ｬ隱槭〒隱ｬ譏讃
+2. **逶ｴ謗･縺ｮ蜴溷屏**: [繧ｨ繝ｩ繝ｼ繧貞ｼ輔″襍ｷ縺薙＠縺溽峩謗･縺ｮ蜃ｦ逅・→縺昴・蝠城｡檎せ]
+3. **髢捺磁縺ｮ蜴溷屏**: [縺ｪ縺懊◎縺ｮ蜃ｦ逅・′蝠城｡後ｒ襍ｷ縺薙＠縺溘°縲∽ｸ頑ｵ√・蝠城｡珪
+4. **剥 譬ｹ譛ｬ蜴溷屏**: [譛邨ら噪縺ｪ蜴溷屏繧・-2譁・〒隱ｬ譏讃
 
-**修正すべき箇所:**
-- ファイル: [ファイルパス]
-- 内容: [何を修正すべきか]
+**菫ｮ豁｣縺吶∋縺咲ｮ・園:**
+- 繝輔ぃ繧､繝ｫ: [繝輔ぃ繧､繝ｫ繝代せ]
+- 蜀・ｮｹ: [菴輔ｒ菫ｮ豁｣縺吶∋縺阪°]
 ```
 
 ### Divergence Point Summary
 
 ```
-┌─────────────────────────────────────────────────────────────────────────┐
-│                      DIVERGENCE ANALYSIS                                │
-├─────────────────────────────────────────────────────────────────────────┤
-│                                                                         │
-│  📍 Location: [file:line - function name]                               │
-│                                                                         │
-│  ┌─────────────────────────┐    ┌─────────────────────────┐             │
-│  │      EXPECTED           │    │       ACTUAL            │             │
-│  ├─────────────────────────┤    ├─────────────────────────┤             │
-│  │ [expected behavior]     │ ≠  │ [actual behavior]       │             │
-│  │ [expected output]       │    │ [actual output/error]   │             │
-│  └─────────────────────────┘    └─────────────────────────┘             │
-│                                                                         │
-│  🔑 Key Difference: [concise explanation]                               │
-│                                                                         │
-└─────────────────────────────────────────────────────────────────────────┘
-```
+笏娯楳笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏・笏・                     DIVERGENCE ANALYSIS                                笏・笏懌楳笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏､
+笏・                                                                        笏・笏・ 桃 Location: [file:line - function name]                               笏・笏・                                                                        笏・笏・ 笏娯楳笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏・   笏娯楳笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏・            笏・笏・ 笏・     EXPECTED           笏・   笏・      ACTUAL            笏・            笏・笏・ 笏懌楳笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏､    笏懌楳笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏､             笏・笏・ 笏・[expected behavior]     笏・竕  笏・[actual behavior]       笏・            笏・笏・ 笏・[expected output]       笏・   笏・[actual output/error]   笏・            笏・笏・ 笏披楳笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏・   笏披楳笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏・            笏・笏・                                                                        笏・笏・ 泊 Key Difference: [concise explanation]                               笏・笏・                                                                        笏・笏披楳笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏・```
 
-#### 日本語解説（Divergence Analysis）
-
-**必ず図の下に以下の形式で日本語解説を追加すること：**
+#### 譌･譛ｬ隱櫁ｧ｣隱ｬ・・ivergence Analysis・・
+**蠢・★蝗ｳ縺ｮ荳九↓莉･荳九・蠖｢蠑上〒譌･譛ｬ隱櫁ｧ｣隱ｬ繧定ｿｽ蜉縺吶ｋ縺薙→・・*
 
 ```markdown
-📝 **乖離分析解説**
+統 **荵夜屬蛻・梵隗｣隱ｬ**
 
-**期待と実際の違い:**
+**譛溷ｾ・→螳滄圀縺ｮ驕輔＞:**
 
-| 観点 | 期待していた動作 | 実際の動作 |
+| 隕ｳ轤ｹ | 譛溷ｾ・＠縺ｦ縺・◆蜍穂ｽ・| 螳滄圀縺ｮ蜍穂ｽ・|
 |------|-----------------|-----------|
-| [観点1] | [期待] | [実際] |
-| [観点2] | [期待] | [実際] |
+| [隕ｳ轤ｹ1] | [譛溷ｾ・ | [螳滄圀] |
+| [隕ｳ轤ｹ2] | [譛溷ｾ・ | [螳滄圀] |
 
-**なぜ乖離が発生したか:**
-[技術的な原因を平易な日本語で説明。専門用語には括弧で補足を入れる]
+**縺ｪ縺應ｹ夜屬縺檎匱逕溘＠縺溘°:**
+[謚陦鍋噪縺ｪ蜴溷屏繧貞ｹｳ譏薙↑譌･譛ｬ隱槭〒隱ｬ譏弱ょｰる摩逕ｨ隱槭↓縺ｯ諡ｬ蠑ｧ縺ｧ陬懆ｶｳ繧貞・繧後ｋ]
 
-**この乖離が引き起こした問題:**
-[ユーザーにとって何が起きたか、システムにどう影響したか]
+**縺薙・荵夜屬縺悟ｼ輔″襍ｷ縺薙＠縺溷撫鬘・**
+[繝ｦ繝ｼ繧ｶ繝ｼ縺ｫ縺ｨ縺｣縺ｦ菴輔′襍ｷ縺阪◆縺九√す繧ｹ繝・Β縺ｫ縺ｩ縺・ｽｱ髻ｿ縺励◆縺犠
 ```
 
 **Use AskUserQuestion:**
@@ -728,16 +632,16 @@ Options:
 | Solution Agent | [content] | High/Medium/Low |
 
 ## Ultrathink Synthesis
-[📝 統合分析解説 content]
+[統 邨ｱ蜷亥・譫占ｧ｣隱ｬ content]
 
 ## Error Flow Diagram
-[ASCII diagram + 📝 フロー解説]
+[ASCII diagram + 統 繝輔Ο繝ｼ隗｣隱ｬ]
 
 ## Reverse Trace
-[ASCII diagram + 📝 逆追跡解説]
+[ASCII diagram + 統 騾・ｿｽ霍｡隗｣隱ｬ]
 
 ## Divergence Analysis
-[ASCII diagram + 📝 乖離分析解説]
+[ASCII diagram + 統 荵夜屬蛻・梵隗｣隱ｬ]
 
 ## Root Cause
 [Confirmed root cause]
@@ -804,12 +708,10 @@ Record in `docs/troubleshooting/BUG_TRACE_LOG.md`:
 ### Process Flow Divergence
 ```
 EXPECTED                    ACTUAL
-─────────                   ──────
+笏笏笏笏笏笏笏笏笏                   笏笏笏笏笏笏
 [flow step 1]               [flow step 1]
-    ↓                           ↓
-[flow step 2]          ≠    [flow step 2 - DIVERGED]
-    ↓                           ↓
-[expected output]           [error/wrong output]
+    竊・                          竊・[flow step 2]          竕    [flow step 2 - DIVERGED]
+    竊・                          竊・[expected output]           [error/wrong output]
 ```
 
 ### Solution Applied

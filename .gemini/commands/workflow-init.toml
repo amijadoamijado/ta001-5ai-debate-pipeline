@@ -1,84 +1,68 @@
-description = "AI協調ワークフロー - 新規案件の初期化"
+﻿description = "AI蜊碑ｪｿ繝ｯ繝ｼ繧ｯ繝輔Ο繝ｼ - 譁ｰ隕乗｡井ｻｶ縺ｮ蛻晄悄蛹・
 prompt = """
-# ワークフロー初期化: /workflow:init
+# 繝ｯ繝ｼ繧ｯ繝輔Ο繝ｼ蛻晄悄蛹・ /workflow:init
 
-## 概要
-新規案件のワークフロー環境を初期化します。
-
-## 使用方法
-```
-/workflow:init {案件略称}
+## 讎りｦ・譁ｰ隕乗｡井ｻｶ縺ｮ繝ｯ繝ｼ繧ｯ繝輔Ο繝ｼ迺ｰ蠅・ｒ蛻晄悄蛹悶＠縺ｾ縺吶・
+## 菴ｿ逕ｨ譁ｹ豕・```
+/workflow:init {譯井ｻｶ逡･遘ｰ}
 ```
 
-## 引数
-- `案件略称`: 案件を識別する短い名前（英数字、ハイフン可）
+## 蠑墓焚
+- `譯井ｻｶ逡･遘ｰ`: 譯井ｻｶ繧定ｭ伜挨縺吶ｋ遏ｭ縺・錐蜑搾ｼ郁恭謨ｰ蟄励√ワ繧､繝輔Φ蜿ｯ・・
+## 螳溯｡梧焔鬆・
+### 1. 譯井ｻｶID逕滓・
+迴ｾ蝨ｨ譌･譎ゅ→騾｣逡ｪ縺九ｉ譯井ｻｶID繧堤函謌・
+- 蠖｢蠑・ `{YYYYMMDD}-{騾｣逡ｪ3譯±-{譯井ｻｶ逡･遘ｰ}`
+- 萓・ `20251230-001-auth-feature`
 
-## 実行手順
-
-### 1. 案件ID生成
-現在日時と連番から案件IDを生成:
-- 形式: `{YYYYMMDD}-{連番3桁}-{案件略称}`
-- 例: `20251230-001-auth-feature`
-
-連番の決定:
-1. `.kiro/ai-coordination/workflow/spec/` 配下の既存案件IDを確認
-2. 同日の最大連番 + 1 を使用
-3. 同日の案件がなければ 001 から開始
-
-### 2. ディレクトリ作成
+騾｣逡ｪ縺ｮ豎ｺ螳・
+1. `.sd/ai-coordination/workflow/spec/` 驟堺ｸ九・譌｢蟄俶｡井ｻｶID繧堤｢ｺ隱・2. 蜷梧律縺ｮ譛螟ｧ騾｣逡ｪ + 1 繧剃ｽｿ逕ｨ
+3. 蜷梧律縺ｮ譯井ｻｶ縺後↑縺代ｌ縺ｰ 001 縺九ｉ髢句ｧ・
+### 2. 繝・ぅ繝ｬ繧ｯ繝医Μ菴懈・
 ```bash
-mkdir -p .kiro/ai-coordination/workflow/spec/{案件ID}
-mkdir -p .kiro/ai-coordination/workflow/review/{案件ID}
-mkdir -p .kiro/ai-coordination/workflow/log/{案件ID}
+mkdir -p .sd/ai-coordination/workflow/spec/{譯井ｻｶID}
+mkdir -p .sd/ai-coordination/workflow/review/{譯井ｻｶID}
+mkdir -p .sd/ai-coordination/workflow/log/{譯井ｻｶID}
 ```
 
-### 3. PROJECT_STATUS.md 初期化
-`.kiro/ai-coordination/workflow/log/{案件ID}/PROJECT_STATUS.md` を作成:
-- テンプレート: `.kiro/ai-coordination/workflow/templates/PROJECT_STATUS.md`
-- メタデータを現在日時で初期化
-- フェーズ1（発注書作成）を設定
-
-### 4. handoff-log.json 更新
-`.kiro/ai-coordination/handoff/handoff-log.json` に新規案件を登録:
+### 3. PROJECT_STATUS.md 蛻晄悄蛹・`.sd/ai-coordination/workflow/log/{譯井ｻｶID}/PROJECT_STATUS.md` 繧剃ｽ懈・:
+- 繝・Φ繝励Ξ繝ｼ繝・ `.sd/ai-coordination/workflow/templates/PROJECT_STATUS.md`
+- 繝｡繧ｿ繝・・繧ｿ繧堤樟蝨ｨ譌･譎ゅ〒蛻晄悄蛹・- 繝輔ぉ繝ｼ繧ｺ1・育匱豕ｨ譖ｸ菴懈・・峨ｒ險ｭ螳・
+### 4. handoff-log.json 譖ｴ譁ｰ
+`.sd/ai-coordination/handoff/handoff-log.json` 縺ｫ譁ｰ隕乗｡井ｻｶ繧堤匳骭ｲ:
 ```json
 {
   \"active_projects\": [
     {
-      \"project_id\": \"{案件ID}\",
-      \"title\": \"{案件略称}\",
+      \"project_id\": \"{譯井ｻｶID}\",
+      \"title\": \"{譯井ｻｶ逡･遘ｰ}\",
       \"current_phase\": 1,
       \"current_owner\": \"Claude Code\",
       \"status\": \"initialized\",
-      \"created_at\": \"{現在日時ISO形式}\",
-      \"updated_at\": \"{現在日時ISO形式}\"
+      \"created_at\": \"{迴ｾ蝨ｨ譌･譎・SO蠖｢蠑殉\",
+      \"updated_at\": \"{迴ｾ蝨ｨ譌･譎・SO蠖｢蠑殉\"
     }
   ]
 }
 ```
 
-### 5. 完了報告
-```
-## 案件初期化完了
+### 5. 螳御ｺ・ｱ蜻・```
+## 譯井ｻｶ蛻晄悄蛹門ｮ御ｺ・
+- **譯井ｻｶID**: {譯井ｻｶID}
+- **菴懈・繝・ぅ繝ｬ繧ｯ繝医Μ**:
+  - spec/{譯井ｻｶID}/
+  - review/{譯井ｻｶID}/
+  - log/{譯井ｻｶID}/
+- **蛻晄悄蛹悶ヵ繧｡繧､繝ｫ**:
+  - log/{譯井ｻｶID}/PROJECT_STATUS.md
 
-- **案件ID**: {案件ID}
-- **作成ディレクトリ**:
-  - spec/{案件ID}/
-  - review/{案件ID}/
-  - log/{案件ID}/
-- **初期化ファイル**:
-  - log/{案件ID}/PROJECT_STATUS.md
+## 谺｡縺ｮ繧ｹ繝・ャ繝・```
+/workflow:order {譯井ｻｶID}
+```
+縺ｧ逋ｺ豕ｨ譖ｸ繧剃ｽ懈・縺励※縺上□縺輔＞縲・```
 
-## 次のステップ
-```
-/workflow:order {案件ID}
-```
-で発注書を作成してください。
-```
-
-## ユーザー入力
-$ARGUMENTS
+## 繝ｦ繝ｼ繧ｶ繝ｼ蜈･蜉・$ARGUMENTS
 
 ---
 
-**実行開始**: 上記手順に従って案件を初期化してください。
-"""
+**螳溯｡碁幕蟋・*: 荳願ｨ俶焔鬆・↓蠕薙▲縺ｦ譯井ｻｶ繧貞・譛溷喧縺励※縺上□縺輔＞縲・"""

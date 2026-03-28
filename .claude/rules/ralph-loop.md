@@ -1,4 +1,4 @@
-# Ralph Loop Operation Rules
+﻿# Ralph Loop Operation Rules
 
 ## Phase-Based Application
 
@@ -69,25 +69,23 @@ The Ralph Loop automates steps 1-2. Step 3 requires `/dialogue-resolution`.
 
 ## Night Mode (Ralph Wiggum)
 
-夜間自律実行用の拡張システム。詳細: `.kiro/ralph/README.md`
+螟憺俣閾ｪ蠕句ｮ溯｡檎畑縺ｮ諡｡蠑ｵ繧ｷ繧ｹ繝・Β縲りｩｳ邏ｰ: `.sd/ralph/README.md`
 
 ### Two-Layer Architecture
 
-| 項目 | 日中（sd002-loop-*） | 夜間（Ralph Wiggum） |
+| 鬆・岼 | 譌･荳ｭ・・d002-loop-*・・| 螟憺俣・・alph Wiggum・・|
 |------|---------------------|---------------------|
-| コマンド | `/sd002:loop-*` | `/ralph-wiggum:*` |
+| 繧ｳ繝槭Φ繝・| `/sd002:loop-*` | `/ralph-wiggum:*` |
 | max-iterations | 15-20 | 60 |
-| 環境変数 | `SD002_*` | `RALPH_*` |
-| 完了マーカー | `ALL_TESTS_PASS` | `RALPH_NIGHTLY_COMPLETE` |
-| リカバリー | dialogue-resolution | 7パターン自動 |
-| 人間介入 | 随時可能 | ブロック時のみ |
+| 迺ｰ蠅・､画焚 | `SD002_*` | `RALPH_*` |
+| 螳御ｺ・・繝ｼ繧ｫ繝ｼ | `ALL_TESTS_PASS` | `RALPH_NIGHTLY_COMPLETE` |
+| 繝ｪ繧ｫ繝舌Μ繝ｼ | dialogue-resolution | 7繝代ち繝ｼ繝ｳ閾ｪ蜍・|
+| 莠ｺ髢謎ｻ句・ | 髫乗凾蜿ｯ閭ｽ | 繝悶Ο繝・け譎ゅ・縺ｿ |
 
 ### Night Mode Commands
 
 ```bash
-/ralph-wiggum:run     # 夜間キュー実行
-/ralph-wiggum:status  # 実行状況確認
-/ralph-wiggum:plan    # 週次計画作成
+/ralph-wiggum:run     # 螟憺俣繧ｭ繝･繝ｼ螳溯｡・/ralph-wiggum:status  # 螳溯｡檎憾豕∫｢ｺ隱・/ralph-wiggum:plan    # 騾ｱ谺｡險育判菴懈・
 ```
 
 ### Night Mode Environment Variables
@@ -102,15 +100,15 @@ RALPH_BLOCKED_PROMISE="RALPH_NIGHTLY_BLOCKED"
 
 | Pattern | Description |
 |---------|-------------|
-| 1 | Build Error - 型エラー自動修正 |
-| 2 | Test Failure - 実装/テスト修正 |
-| 3 | Lint Error - --fix + 手動修正 |
-| 4 | Infinite Loop - 適応的検知 + スキップ |
-| 5 | External Dependency - サーキットブレーカー |
-| 6 | Unexpected - graceful-exit（再開可能） |
-| 7 | Recovery Exhaustion - スキップ + エスカレーション |
+| 1 | Build Error - 蝙九お繝ｩ繝ｼ閾ｪ蜍穂ｿｮ豁｣ |
+| 2 | Test Failure - 螳溯｣・繝・せ繝井ｿｮ豁｣ |
+| 3 | Lint Error - --fix + 謇句虚菫ｮ豁｣ |
+| 4 | Infinite Loop - 驕ｩ蠢懃噪讀懃衍 + 繧ｹ繧ｭ繝・・ |
+| 5 | External Dependency - 繧ｵ繝ｼ繧ｭ繝・ヨ繝悶Ξ繝ｼ繧ｫ繝ｼ |
+| 6 | Unexpected - graceful-exit・亥・髢句庄閭ｽ・・|
+| 7 | Recovery Exhaustion - 繧ｹ繧ｭ繝・・ + 繧ｨ繧ｹ繧ｫ繝ｬ繝ｼ繧ｷ繝ｧ繝ｳ |
 
 ### Specification
 
-- Requirements: `.kiro/specs/ralph-wiggum/requirements.md`
-- Design: `.kiro/specs/ralph-wiggum/design.md`
+- Requirements: `.sd/specs/ralph-wiggum/requirements.md`
+- Design: `.sd/specs/ralph-wiggum/design.md`

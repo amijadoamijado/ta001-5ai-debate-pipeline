@@ -1,123 +1,99 @@
+﻿---
+description: AI蜊碑ｪｿ繝ｯ繝ｼ繧ｯ繝輔Ο繝ｼ - Gemini CLI螳溯｣・ｮ溯｡鯉ｼ域欠遉ｺ譖ｸ竊貞ｮ溯｡娯・蠕ｩ蜈・ｒ荳諡ｬ・・allowed-tools: Bash, Write, Read, Glob, Grep, Edit
 ---
-description: AI協調ワークフロー - Gemini CLI実装実行（指示書→実行→復元を一括）
-allowed-tools: Bash, Write, Read, Glob, Grep, Edit
----
 
-# 実装実行: /workflow:impl
+# 螳溯｣・ｮ溯｡・ /workflow:impl
 
-## 概要
-IMPLEMENT_REQUESTに基づきGemini CLIを実行し、結果を検証してコミットする。
-**指示書作成だけで止まることを防ぐための仕組み。**
+## 讎りｦ・IMPLEMENT_REQUEST縺ｫ蝓ｺ縺･縺宏emini CLI繧貞ｮ溯｡後＠縲∫ｵ先棡繧呈､懆ｨｼ縺励※繧ｳ繝溘ャ繝医☆繧九・**謖・､ｺ譖ｸ菴懈・縺縺代〒豁｢縺ｾ繧九％縺ｨ繧帝亟縺舌◆繧√・莉慕ｵ・∩縲・*
 
-## 使用方法
-```
-/workflow:impl {案件ID} {タスク番号}
+## 菴ｿ逕ｨ譁ｹ豕・```
+/workflow:impl {譯井ｻｶID} {繧ｿ繧ｹ繧ｯ逡ｪ蜿ｷ}
 ```
 
-## 引数
-- `案件ID`: 対象案件のID（例: `20260207-002-coverage-fix`）
-- `タスク番号`: 実装指示番号（3桁: 001, 002, ...）
+## 蠑墓焚
+- `譯井ｻｶID`: 蟇ｾ雎｡譯井ｻｶ縺ｮID・井ｾ・ `20260207-002-coverage-fix`・・- `繧ｿ繧ｹ繧ｯ逡ｪ蜿ｷ`: 螳溯｣・欠遉ｺ逡ｪ蜿ｷ・・譯・ 001, 002, ...・・
+## 蜑肴署譚｡莉ｶ
+- IMPLEMENT_REQUEST_{繧ｿ繧ｹ繧ｯ逡ｪ蜿ｷ}.md 縺悟ｭ伜惠縺吶ｋ縺薙→
 
-## 前提条件
-- IMPLEMENT_REQUEST_{タスク番号}.md が存在すること
-
-## 実行手順（全自動・省略禁止）
-
-### Step 1: 指示書の存在確認
-```bash
-cat .kiro/ai-coordination/workflow/spec/{案件ID}/IMPLEMENT_REQUEST_{タスク番号}.md
+## 螳溯｡梧焔鬆・ｼ亥・閾ｪ蜍輔・逵∫払遖∵ｭ｢・・
+### Step 1: 謖・､ｺ譖ｸ縺ｮ蟄伜惠遒ｺ隱・```bash
+cat .sd/ai-coordination/workflow/spec/{譯井ｻｶID}/IMPLEMENT_REQUEST_{繧ｿ繧ｹ繧ｯ逡ｪ蜿ｷ}.md
 ```
-存在しない場合はエラー終了。
-
-### Step 2: 現在のgit状態を記録
+蟄伜惠縺励↑縺・ｴ蜷医・繧ｨ繝ｩ繝ｼ邨ゆｺ・・
+### Step 2: 迴ｾ蝨ｨ縺ｮgit迥ｶ諷九ｒ險倬鹸
 ```bash
 git stash list
 git log --oneline -1
 ```
-未コミットの変更がある場合は警告を表示。
-
-### Step 3: Gemini CLI実行
-**必ずバックグラウンドで実行し、完了を待つ。**
+譛ｪ繧ｳ繝溘ャ繝医・螟画峩縺後≠繧句ｴ蜷医・隴ｦ蜻翫ｒ陦ｨ遉ｺ縲・
+### Step 3: Gemini CLI螳溯｡・**蠢・★繝舌ャ繧ｯ繧ｰ繝ｩ繧ｦ繝ｳ繝峨〒螳溯｡後＠縲∝ｮ御ｺ・ｒ蠕・▽縲・*
 
 ```bash
-cat .kiro/ai-coordination/workflow/spec/{案件ID}/IMPLEMENT_REQUEST_{タスク番号}.md | gemini --yolo -p "上記の実装指示書に従って、全タスクを実装してください。完了後は検証手順に従ってビルド・テスト・ESLintを実行してください。"
+cat .sd/ai-coordination/workflow/spec/{譯井ｻｶID}/IMPLEMENT_REQUEST_{繧ｿ繧ｹ繧ｯ逡ｪ蜿ｷ}.md | gemini --yolo -p "荳願ｨ倥・螳溯｣・欠遉ｺ譖ｸ縺ｫ蠕薙▲縺ｦ縲∝・繧ｿ繧ｹ繧ｯ繧貞ｮ溯｣・＠縺ｦ縺上□縺輔＞縲ょｮ御ｺ・ｾ後・讀懆ｨｼ謇矩・↓蠕薙▲縺ｦ繝薙Ν繝峨・繝・せ繝医・ESLint繧貞ｮ溯｡後＠縺ｦ縺上□縺輔＞縲・
 ```
 
-⚠️ **コマンド順序注意**: `--yolo -p "..."` の順（`-p --yolo`だと`--yolo`がプロンプト値になる）
-
-### Step 4: .kiro/ 復元
-Geminiは`.kiro/`ディレクトリを削除する傾向があるため、必ず復元する。
-
+笞・・**繧ｳ繝槭Φ繝蛾・ｺ乗ｳｨ諢・*: `--yolo -p "..."` 縺ｮ鬆・ｼ・-p --yolo`縺縺ｨ`--yolo`縺後・繝ｭ繝ｳ繝励ヨ蛟､縺ｫ縺ｪ繧具ｼ・
+### Step 4: .sd/ 蠕ｩ蜈・Gemini縺ｯ`.sd/`繝・ぅ繝ｬ繧ｯ繝医Μ繧貞炎髯､縺吶ｋ蛯ｾ蜷代′縺ゅｋ縺溘ａ縲∝ｿ・★蠕ｩ蜈・☆繧九・
 ```bash
-git checkout -- .kiro/
+git checkout -- .sd/
 ```
 
-### Step 5: 結果検証
+### Step 5: 邨先棡讀懆ｨｼ
 ```bash
 npx tsc --noEmit
 npx jest --no-coverage
 ```
 
-### Step 6: 変更差分の確認
-```bash
+### Step 6: 螟画峩蟾ｮ蛻・・遒ｺ隱・```bash
 git status --short
 git diff --stat
 ```
 
-Geminiが変更したファイルを確認し、対象ファイルのみをステージング。
+Gemini縺悟､画峩縺励◆繝輔ぃ繧､繝ｫ繧堤｢ｺ隱阪＠縲∝ｯｾ雎｡繝輔ぃ繧､繝ｫ縺ｮ縺ｿ繧偵せ繝・・繧ｸ繝ｳ繧ｰ縲・
+### Step 7: 繧ｳ繝溘ャ繝・```bash
+git add {螟画峩繝輔ぃ繧､繝ｫ}
+git commit -m "{驕ｩ蛻・↑繧ｳ繝溘ャ繝医Γ繝・そ繝ｼ繧ｸ}
 
-### Step 7: コミット
-```bash
-git add {変更ファイル}
-git commit -m "{適切なコミットメッセージ}
-
-案件: {案件ID}
+譯井ｻｶ: {譯井ｻｶID}
 
 Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>"
 ```
 
-### Step 8: handoff-log.json 更新
-実行結果を記録:
+### Step 8: handoff-log.json 譖ｴ譁ｰ
+螳溯｡檎ｵ先棡繧定ｨ倬鹸:
 ```json
 {
-  "timestamp": "{現在日時ISO形式}",
+  "timestamp": "{迴ｾ蝨ｨ譌･譎・SO蠖｢蠑殉",
   "type": "implement_complete",
-  "project_id": "{案件ID}",
+  "project_id": "{譯井ｻｶID}",
   "from": "Gemini CLI",
   "to": "Claude Code",
-  "file": "workflow/spec/{案件ID}/IMPLEMENT_REQUEST_{タスク番号}.md",
-  "note": "{実行結果サマリー}"
+  "file": "workflow/spec/{譯井ｻｶID}/IMPLEMENT_REQUEST_{繧ｿ繧ｹ繧ｯ逡ｪ蜿ｷ}.md",
+  "note": "{螳溯｡檎ｵ先棡繧ｵ繝槭Μ繝ｼ}"
 }
 ```
 
-### Step 9: Codexレビュー自動実行（省略禁止）
-**実装・コミット完了後、必ず `/workflow:review {案件ID} {タスク番号}` を実行する。**
-Gemini実装が終わっただけで止まることは禁止。レビュー依頼まで含めて1つのワークフロー。
-
-### Step 10: 完了報告
-```
-## Gemini実装 → Codexレビュー完了
-
-- **案件ID**: {案件ID}
-- **タスク番号**: {タスク番号}
-- **テスト結果**: {パス数}/{全体数}
-- **コミット**: {ハッシュ}
-- **.kiro/復元**: 完了
-- **レビュー判定**: {Approve/Request Changes}
+### Step 9: Codex繝ｬ繝薙Η繝ｼ閾ｪ蜍募ｮ溯｡鯉ｼ育怐逡･遖∵ｭ｢・・**螳溯｣・・繧ｳ繝溘ャ繝亥ｮ御ｺ・ｾ後∝ｿ・★ `/workflow:review {譯井ｻｶID} {繧ｿ繧ｹ繧ｯ逡ｪ蜿ｷ}` 繧貞ｮ溯｡後☆繧九・*
+Gemini螳溯｣・′邨ゅｏ縺｣縺溘□縺代〒豁｢縺ｾ繧九％縺ｨ縺ｯ遖∵ｭ｢縲ゅΞ繝薙Η繝ｼ萓晞ｼ縺ｾ縺ｧ蜷ｫ繧√※1縺､縺ｮ繝ｯ繝ｼ繧ｯ繝輔Ο繝ｼ縲・
+### Step 10: 螳御ｺ・ｱ蜻・```
+## Gemini螳溯｣・竊・Codex繝ｬ繝薙Η繝ｼ螳御ｺ・
+- **譯井ｻｶID**: {譯井ｻｶID}
+- **繧ｿ繧ｹ繧ｯ逡ｪ蜿ｷ**: {繧ｿ繧ｹ繧ｯ逡ｪ蜿ｷ}
+- **繝・せ繝育ｵ先棡**: {繝代せ謨ｰ}/{蜈ｨ菴捺焚}
+- **繧ｳ繝溘ャ繝・*: {繝上ャ繧ｷ繝･}
+- **.sd/蠕ｩ蜈・*: 螳御ｺ・- **繝ｬ繝薙Η繝ｼ蛻､螳・*: {Approve/Request Changes}
 ```
 
-## エラー時の対応
-
-| エラー | 対応 |
+## 繧ｨ繝ｩ繝ｼ譎ゅ・蟇ｾ蠢・
+| 繧ｨ繝ｩ繝ｼ | 蟇ｾ蠢・|
 |--------|------|
-| Gemini CLI実行失敗 | コマンド引数順序を確認。`--yolo -p "..."` の順 |
-| テスト失敗 | Geminiの変更を`git diff`で確認し、手動修正またはリトライ |
-| .kiro/ 削除 | `git checkout -- .kiro/` で復元 |
-| ビルドエラー | `npx tsc --noEmit` のエラーを確認し修正 |
+| Gemini CLI螳溯｡悟､ｱ謨・| 繧ｳ繝槭Φ繝牙ｼ墓焚鬆・ｺ上ｒ遒ｺ隱阪Ａ--yolo -p "..."` 縺ｮ鬆・|
+| 繝・せ繝亥､ｱ謨・| Gemini縺ｮ螟画峩繧蛋git diff`縺ｧ遒ｺ隱阪＠縲∵焔蜍穂ｿｮ豁｣縺ｾ縺溘・繝ｪ繝医Λ繧､ |
+| .sd/ 蜑企勁 | `git checkout -- .sd/` 縺ｧ蠕ｩ蜈・|
+| 繝薙Ν繝峨お繝ｩ繝ｼ | `npx tsc --noEmit` 縺ｮ繧ｨ繝ｩ繝ｼ繧堤｢ｺ隱阪＠菫ｮ豁｣ |
 
-## ユーザー入力
-$ARGUMENTS
+## 繝ｦ繝ｼ繧ｶ繝ｼ蜈･蜉・$ARGUMENTS
 
 ---
 
-**実行開始**: 上記手順に従ってGemini CLIを実行してください。Step 1からStep 9まで全て実行すること。途中で止まることは禁止。
+**螳溯｡碁幕蟋・*: 荳願ｨ俶焔鬆・↓蠕薙▲縺ｦGemini CLI繧貞ｮ溯｡後＠縺ｦ縺上□縺輔＞縲４tep 1縺九ｉStep 9縺ｾ縺ｧ蜈ｨ縺ｦ螳溯｡後☆繧九％縺ｨ縲る比ｸｭ縺ｧ豁｢縺ｾ繧九％縺ｨ縺ｯ遖∵ｭ｢縲・

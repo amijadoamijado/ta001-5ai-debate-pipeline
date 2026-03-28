@@ -1,12 +1,11 @@
----
+﻿---
 description: Execute refactoring in batched files with auto-checkpoint
 allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, TodoWrite, Skill
 ---
 
 # /refactor:batch
 
-自動チェックポイントとセッション永続化でバッチ単位のリファクタリングを実行する。
-
+閾ｪ蜍輔メ繧ｧ繝・け繝昴う繝ｳ繝医→繧ｻ繝・す繝ｧ繝ｳ豌ｸ邯壼喧縺ｧ繝舌ャ繝∝腰菴阪・繝ｪ繝輔ぃ繧ｯ繧ｿ繝ｪ繝ｳ繧ｰ繧貞ｮ溯｡後☆繧九・
 ## Usage
 
 ```
@@ -14,13 +13,11 @@ allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, TodoWrite, Skill
 ```
 
 **Arguments:**
-- `--continue`: 未完了の最後のバッチから再開
-- `--batch-id {id}`: 特定のバッチのみ実行
-
+- `--continue`: 譛ｪ螳御ｺ・・譛蠕後・繝舌ャ繝√°繧牙・髢・- `--batch-id {id}`: 迚ｹ螳壹・繝舌ャ繝√・縺ｿ螳溯｡・
 ## Prerequisites
 
-- `/refactor:plan`が正常に完了していること
-- バッチマニフェストが`.kiro/refactor/plans/{session-id}/batch-manifest.json`に存在すること
+- `/refactor:plan`縺梧ｭ｣蟶ｸ縺ｫ螳御ｺ・＠縺ｦ縺・ｋ縺薙→
+- 繝舌ャ繝√・繝九ヵ繧ｧ繧ｹ繝医′`.sd/refactor/plans/{session-id}/batch-manifest.json`縺ｫ蟄伜惠縺吶ｋ縺薙→
 
 ## Execution Flow
 
@@ -50,7 +47,7 @@ For each batch in manifest:
 
 ```javascript
 const manifest = JSON.parse(
-  read('.kiro/refactor/plans/{session-id}/batch-manifest.json')
+  read('.sd/refactor/plans/{session-id}/batch-manifest.json')
 );
 
 const currentBatch = manifest.batches.find(b => b.status !== 'completed');

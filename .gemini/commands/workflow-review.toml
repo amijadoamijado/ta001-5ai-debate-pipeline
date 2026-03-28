@@ -1,141 +1,118 @@
-description = "AI協調ワークフロー - Codexレビュー依頼作成・実行"
+﻿description = "AI蜊碑ｪｿ繝ｯ繝ｼ繧ｯ繝輔Ο繝ｼ - Codex繝ｬ繝薙Η繝ｼ萓晞ｼ菴懈・繝ｻ螳溯｡・
 prompt = """
-# レビュー依頼: /workflow:review
+# 繝ｬ繝薙Η繝ｼ萓晞ｼ: /workflow:review
 
-## 概要
-Gemini CLI実装完了後、Codexにレビューを依頼する。
-**impl完了後に自動で呼ばれる。手動実行も可能。**
+## 讎りｦ・Gemini CLI螳溯｣・ｮ御ｺ・ｾ後，odex縺ｫ繝ｬ繝薙Η繝ｼ繧剃ｾ晞ｼ縺吶ｋ縲・**impl螳御ｺ・ｾ後↓閾ｪ蜍輔〒蜻ｼ縺ｰ繧後ｋ縲よ焔蜍募ｮ溯｡後ｂ蜿ｯ閭ｽ縲・*
 
-## 使用方法
-```
-/workflow:review {案件ID} {タスク番号}
+## 菴ｿ逕ｨ譁ｹ豕・```
+/workflow:review {譯井ｻｶID} {繧ｿ繧ｹ繧ｯ逡ｪ蜿ｷ}
 ```
 
-## 引数
-- `案件ID`: 対象案件のID
-- `タスク番号`: 実装指示番号（3桁: 001, 002, ...）
+## 蠑墓焚
+- `譯井ｻｶID`: 蟇ｾ雎｡譯井ｻｶ縺ｮID
+- `繧ｿ繧ｹ繧ｯ逡ｪ蜿ｷ`: 螳溯｣・欠遉ｺ逡ｪ蜿ｷ・・譯・ 001, 002, ...・・
+## 蜑肴署譚｡莉ｶ
+- IMPLEMENT_REQUEST_{繧ｿ繧ｹ繧ｯ逡ｪ蜿ｷ}.md 縺悟ｭ伜惠縺吶ｋ縺薙→
+- Gemini CLI縺ｫ繧医ｋ螳溯｣・さ繝溘ャ繝医′螳御ｺ・＠縺ｦ縺・ｋ縺薙→
 
-## 前提条件
-- IMPLEMENT_REQUEST_{タスク番号}.md が存在すること
-- Gemini CLIによる実装コミットが完了していること
-
-## 実行手順（全自動・省略禁止）
-
-### Step 1: 実装指示の読み込み
+## 螳溯｡梧焔鬆・ｼ亥・閾ｪ蜍輔・逵∫払遖∵ｭ｢・・
+### Step 1: 螳溯｣・欠遉ｺ縺ｮ隱ｭ縺ｿ霎ｼ縺ｿ
 ```bash
-cat .kiro/ai-coordination/workflow/spec/{案件ID}/IMPLEMENT_REQUEST_{タスク番号}.md
+cat .sd/ai-coordination/workflow/spec/{譯井ｻｶID}/IMPLEMENT_REQUEST_{繧ｿ繧ｹ繧ｯ逡ｪ蜿ｷ}.md
 ```
-レビュー対象のスコープを把握する。
-
-### Step 2: 実装コミットの差分取得
-```bash
+繝ｬ繝薙Η繝ｼ蟇ｾ雎｡縺ｮ繧ｹ繧ｳ繝ｼ繝励ｒ謚頑升縺吶ｋ縲・
+### Step 2: 螳溯｣・さ繝溘ャ繝医・蟾ｮ蛻・叙蠕・```bash
 git log --oneline -3
 git diff HEAD~1 --stat
 git diff HEAD~1
 ```
-Geminiが実装した変更内容を取得する。
+Gemini縺悟ｮ溯｣・＠縺溷､画峩蜀・ｮｹ繧貞叙蠕励☆繧九・
+### Step 3: REVIEW_REQUEST_{繧ｿ繧ｹ繧ｯ逡ｪ蜿ｷ}.md 菴懈・
+菫晏ｭ伜・: `.sd/ai-coordination/workflow/spec/{譯井ｻｶID}/REVIEW_REQUEST_{繧ｿ繧ｹ繧ｯ逡ｪ蜿ｷ}.md`
 
-### Step 3: REVIEW_REQUEST_{タスク番号}.md 作成
-保存先: `.kiro/ai-coordination/workflow/spec/{案件ID}/REVIEW_REQUEST_{タスク番号}.md`
-
-内容:
+蜀・ｮｹ:
 ```markdown
-# レビュー依頼
+# 繝ｬ繝薙Η繝ｼ萓晞ｼ
 
-## 基本情報
-- **案件ID**: {案件ID}
-- **タスク番号**: {タスク番号}
-- **実装者**: Gemini CLI
-- **レビュアー**: Codex
-- **日時**: {現在日時}
+## 蝓ｺ譛ｬ諠・ｱ
+- **譯井ｻｶID**: {譯井ｻｶID}
+- **繧ｿ繧ｹ繧ｯ逡ｪ蜿ｷ**: {繧ｿ繧ｹ繧ｯ逡ｪ蜿ｷ}
+- **螳溯｣・・*: Gemini CLI
+- **繝ｬ繝薙Η繧｢繝ｼ**: Codex
+- **譌･譎・*: {迴ｾ蝨ｨ譌･譎・
 
-## レビュー対象
-- **実装指示**: IMPLEMENT_REQUEST_{タスク番号}.md
-- **実装コミット**: {コミットハッシュ}
-- **変更ファイル**: {ファイル一覧}
+## 繝ｬ繝薙Η繝ｼ蟇ｾ雎｡
+- **螳溯｣・欠遉ｺ**: IMPLEMENT_REQUEST_{繧ｿ繧ｹ繧ｯ逡ｪ蜿ｷ}.md
+- **螳溯｣・さ繝溘ャ繝・*: {繧ｳ繝溘ャ繝医ワ繝・す繝･}
+- **螟画峩繝輔ぃ繧､繝ｫ**: {繝輔ぃ繧､繝ｫ荳隕ｧ}
 
-## 変更差分
-{git diff の内容}
+## 螟画峩蟾ｮ蛻・{git diff 縺ｮ蜀・ｮｹ}
 
-## レビュー観点
-1. 実装指示との整合性
-2. TypeScript型安全性
-3. テストカバレッジ
-4. コード品質（ESLint準拠）
-5. エラーハンドリング
+## 繝ｬ繝薙Η繝ｼ隕ｳ轤ｹ
+1. 螳溯｣・欠遉ｺ縺ｨ縺ｮ謨ｴ蜷域ｧ
+2. TypeScript蝙句ｮ牙・諤ｧ
+3. 繝・せ繝医き繝舌Ξ繝・ず
+4. 繧ｳ繝ｼ繝牙刀雉ｪ・・SLint貅匁侠・・5. 繧ｨ繝ｩ繝ｼ繝上Φ繝峨Μ繝ｳ繧ｰ
 
-## 判定基準
-- **Approve**: 全観点でOK → Phase 7（テスト）へ
-- **Request Changes**: 修正必要 → Phase 6（修正）へ
+## 蛻､螳壼渕貅・- **Approve**: 蜈ｨ隕ｳ轤ｹ縺ｧOK 竊・Phase 7・医ユ繧ｹ繝茨ｼ峨∈
+- **Request Changes**: 菫ｮ豁｣蠢・ｦ・竊・Phase 6・井ｿｮ豁｣・峨∈
 ```
 
-### Step 4: Codex CLI実行
-```bash
-REVIEW_CONTENT=$(cat .kiro/ai-coordination/workflow/spec/{案件ID}/REVIEW_REQUEST_{タスク番号}.md)
-REVIEW_PROMPT=\"以下のレビュー依頼に従って、実装コードをレビューしてください。判定（Approve/Request Changes）と詳細コメントを出力してください。
-
+### Step 4: Codex CLI螳溯｡・```bash
+REVIEW_CONTENT=$(cat .sd/ai-coordination/workflow/spec/{譯井ｻｶID}/REVIEW_REQUEST_{繧ｿ繧ｹ繧ｯ逡ｪ蜿ｷ}.md)
+REVIEW_PROMPT=\"莉･荳九・繝ｬ繝薙Η繝ｼ萓晞ｼ縺ｫ蠕薙▲縺ｦ縲∝ｮ溯｣・さ繝ｼ繝峨ｒ繝ｬ繝薙Η繝ｼ縺励※縺上□縺輔＞縲ょ愛螳夲ｼ・pprove/Request Changes・峨→隧ｳ邏ｰ繧ｳ繝｡繝ｳ繝医ｒ蜃ｺ蜉帙＠縺ｦ縺上□縺輔＞縲・
 ${REVIEW_CONTENT}\"
 REVIEW_RESULT=$(printf '%s' \"$REVIEW_PROMPT\" | codex exec --full-auto 2>/dev/null)
 ```
 
-**注意**:
-- `codex exec --full-auto` を使用（`codex review --commit` はサンドボックス制限でgit historyにアクセス不可）
-- `printf '%s'` を使用（`echo` はバックスラッシュ解釈の問題あり）
-- `2>/dev/null` でstderrのUI出力を除外し、stdoutのレビュー結果のみキャプチャする
-- 旧形式 `codex --full-auto -p \"...\"` は v0.98.0 で `-p` がprofile指定に変更されたため使用不可
+**豕ｨ諢・*:
+- `codex exec --full-auto` 繧剃ｽｿ逕ｨ・・codex review --commit` 縺ｯ繧ｵ繝ｳ繝峨・繝・け繧ｹ蛻ｶ髯舌〒git history縺ｫ繧｢繧ｯ繧ｻ繧ｹ荳榊庄・・- `printf '%s'` 繧剃ｽｿ逕ｨ・・echo` 縺ｯ繝舌ャ繧ｯ繧ｹ繝ｩ繝・す繝･隗｣驥医・蝠城｡後≠繧奇ｼ・- `2>/dev/null` 縺ｧstderr縺ｮUI蜃ｺ蜉帙ｒ髯､螟悶＠縲《tdout縺ｮ繝ｬ繝薙Η繝ｼ邨先棡縺ｮ縺ｿ繧ｭ繝｣繝励メ繝｣縺吶ｋ
+- 譌ｧ蠖｢蠑・`codex --full-auto -p \"...\"` 縺ｯ v0.98.0 縺ｧ `-p` 縺継rofile謖・ｮ壹↓螟画峩縺輔ｌ縺溘◆繧∽ｽｿ逕ｨ荳榊庄
 
-### Step 5: レビュー結果保存
-Codexの出力を以下に保存:
+### Step 5: 繝ｬ繝薙Η繝ｼ邨先棡菫晏ｭ・Codex縺ｮ蜃ｺ蜉帙ｒ莉･荳九↓菫晏ｭ・
 ```
-.kiro/ai-coordination/workflow/review/{案件ID}/REVIEW_IMPL_{タスク番号}.md
+.sd/ai-coordination/workflow/review/{譯井ｻｶID}/REVIEW_IMPL_{繧ｿ繧ｹ繧ｯ逡ｪ蜿ｷ}.md
 ```
 
-### Step 6: handoff-log.json 更新
+### Step 6: handoff-log.json 譖ｴ譁ｰ
 ```json
 {
-  \"timestamp\": \"{現在日時ISO形式}\",
+  \"timestamp\": \"{迴ｾ蝨ｨ譌･譎・SO蠖｢蠑殉\",
   \"type\": \"review_complete\",
-  \"project_id\": \"{案件ID}\",
+  \"project_id\": \"{譯井ｻｶID}\",
   \"from\": \"Codex\",
   \"to\": \"Claude Code\",
-  \"file\": \"workflow/review/{案件ID}/REVIEW_IMPL_{タスク番号}.md\",
+  \"file\": \"workflow/review/{譯井ｻｶID}/REVIEW_IMPL_{繧ｿ繧ｹ繧ｯ逡ｪ蜿ｷ}.md\",
   \"note\": \"{Approve/Request Changes}\"
 }
 ```
 
-### Step 7: PROJECT_STATUS.md 更新
-- Approve → Phase 7（テスト）に進行
-- Request Changes → Phase 6（修正対応）に移行
+### Step 7: PROJECT_STATUS.md 譖ｴ譁ｰ
+- Approve 竊・Phase 7・医ユ繧ｹ繝茨ｼ峨↓騾ｲ陦・- Request Changes 竊・Phase 6・井ｿｮ豁｣蟇ｾ蠢懶ｼ峨↓遘ｻ陦・
+### Step 8: 螳御ｺ・ｱ蜻・```
+## Codex繝ｬ繝薙Η繝ｼ螳御ｺ・
+- **譯井ｻｶID**: {譯井ｻｶID}
+- **繧ｿ繧ｹ繧ｯ逡ｪ蜿ｷ**: {繧ｿ繧ｹ繧ｯ逡ｪ蜿ｷ}
+- **蛻､螳・*: {Approve/Request Changes}
+- **繝ｬ繝薙Η繝ｼ邨先棡**: .sd/ai-coordination/workflow/review/{譯井ｻｶID}/REVIEW_IMPL_{繧ｿ繧ｹ繧ｯ逡ｪ蜿ｷ}.md
 
-### Step 8: 完了報告
-```
-## Codexレビュー完了
-
-- **案件ID**: {案件ID}
-- **タスク番号**: {タスク番号}
-- **判定**: {Approve/Request Changes}
-- **レビュー結果**: .kiro/ai-coordination/workflow/review/{案件ID}/REVIEW_IMPL_{タスク番号}.md
-
-## 次のアクション
-{Approveの場合: テストフェーズへ}
-{Request Changesの場合: 修正内容のサマリーと対応方針}
+## 谺｡縺ｮ繧｢繧ｯ繧ｷ繝ｧ繝ｳ
+{Approve縺ｮ蝣ｴ蜷・ 繝・せ繝医ヵ繧ｧ繝ｼ繧ｺ縺ｸ}
+{Request Changes縺ｮ蝣ｴ蜷・ 菫ｮ豁｣蜀・ｮｹ縺ｮ繧ｵ繝槭Μ繝ｼ縺ｨ蟇ｾ蠢懈婿驥掵
 ```
 
-## エラー時の対応
-
-| エラー | 原因 | 対応 |
+## 繧ｨ繝ｩ繝ｼ譎ゅ・蟇ｾ蠢・
+| 繧ｨ繝ｩ繝ｼ | 蜴溷屏 | 蟇ｾ蠢・|
 |--------|------|------|
-| Codex CLI未インストール | 未セットアップ | `npm install -g @openai/codex` を案内 |
-| `stdin is not a terminal` | 非インタラクティブ環境で `codex` 直接実行 | `codex exec --full-auto` を使用 |
-| `-p` がprofile扱いになる | v0.98.0で `-p` の意味が変更 | `printf ... \\| codex exec --full-auto` を使用 |
-| `unknown revision` | `codex review --commit` のサンドボックス制限 | `codex exec --full-auto` にdiffをパイプで渡す |
-| Codex実行失敗（その他） | ネットワーク/API等 | 手動レビューに切り替え |
-| レビュー結果が不明瞭 | 出力フォーマット不一致 | Claude Codeが補足レビュー |
+| Codex CLI譛ｪ繧､繝ｳ繧ｹ繝医・繝ｫ | 譛ｪ繧ｻ繝・ヨ繧｢繝・・ | `npm install -g @openai/codex` 繧呈｡亥・ |
+| `stdin is not a terminal` | 髱槭う繝ｳ繧ｿ繝ｩ繧ｯ繝・ぅ繝也腸蠅・〒 `codex` 逶ｴ謗･螳溯｡・| `codex exec --full-auto` 繧剃ｽｿ逕ｨ |
+| `-p` 縺継rofile謇ｱ縺・↓縺ｪ繧・| v0.98.0縺ｧ `-p` 縺ｮ諢丞袖縺悟､画峩 | `printf ... \\| codex exec --full-auto` 繧剃ｽｿ逕ｨ |
+| `unknown revision` | `codex review --commit` 縺ｮ繧ｵ繝ｳ繝峨・繝・け繧ｹ蛻ｶ髯・| `codex exec --full-auto` 縺ｫdiff繧偵ヱ繧､繝励〒貂｡縺・|
+| Codex螳溯｡悟､ｱ謨暦ｼ医◎縺ｮ莉厄ｼ・| 繝阪ャ繝医Ρ繝ｼ繧ｯ/API遲・| 謇句虚繝ｬ繝薙Η繝ｼ縺ｫ蛻・ｊ譖ｿ縺・|
+| 繝ｬ繝薙Η繝ｼ邨先棡縺御ｸ肴・迸ｭ | 蜃ｺ蜉帙ヵ繧ｩ繝ｼ繝槭ャ繝井ｸ堺ｸ閾ｴ | Claude Code縺瑚｣懆ｶｳ繝ｬ繝薙Η繝ｼ |
 
-## ユーザー入力
-$ARGUMENTS
+## 繝ｦ繝ｼ繧ｶ繝ｼ蜈･蜉・$ARGUMENTS
 
 ---
 
-**実行開始**: 上記手順に従ってCodexレビューを実行してください。Step 1からStep 8まで全て実行すること。途中で止まることは禁止。
-"""
+**螳溯｡碁幕蟋・*: 荳願ｨ俶焔鬆・↓蠕薙▲縺ｦCodex繝ｬ繝薙Η繝ｼ繧貞ｮ溯｡後＠縺ｦ縺上□縺輔＞縲４tep 1縺九ｉStep 8縺ｾ縺ｧ蜈ｨ縺ｦ螳溯｡後☆繧九％縺ｨ縲る比ｸｭ縺ｧ豁｢縺ｾ繧九％縺ｨ縺ｯ遖∵ｭ｢縲・"""

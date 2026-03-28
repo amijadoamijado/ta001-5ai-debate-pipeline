@@ -1,9 +1,8 @@
-description = "No description"
+﻿description = "No description"
 prompt = """
 # /ralph-wiggum:run - Night Mode Execution
 
-夜間自律実行キューを実行する。
-
+螟憺俣閾ｪ蠕句ｮ溯｡後く繝･繝ｼ繧貞ｮ溯｡後☆繧九・
 ## Usage
 
 ```
@@ -14,62 +13,48 @@ prompt = """
 
 | Option | Description |
 |--------|-------------|
-| `--queue <file>` | 実行するキューファイル（デフォルト: nightly-queue.md） |
-| `--max-iterations <n>` | 最大反復数（デフォルト: 60） |
-| `--resume` | graceful-exitから再開 |
-| `--dry-run` | 実行せずにキュー内容を確認 |
+| `--queue <file>` | 螳溯｡後☆繧九く繝･繝ｼ繝輔ぃ繧､繝ｫ・医ョ繝輔か繝ｫ繝・ nightly-queue.md・・|
+| `--max-iterations <n>` | 譛螟ｧ蜿榊ｾｩ謨ｰ・医ョ繝輔か繝ｫ繝・ 60・・|
+| `--resume` | graceful-exit縺九ｉ蜀埼幕 |
+| `--dry-run` | 螳溯｡後○縺壹↓繧ｭ繝･繝ｼ蜀・ｮｹ繧堤｢ｺ隱・|
 
 ## Environment Variables
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `RALPH_MAX_ITERATIONS` | 60 | 最大反復数 |
-| `RALPH_COMPLETION_PROMISE` | `RALPH_NIGHTLY_COMPLETE` | 全体完了マーカー |
-| `RALPH_BLOCKED_PROMISE` | `RALPH_NIGHTLY_BLOCKED` | ブロック時マーカー |
+| `RALPH_MAX_ITERATIONS` | 60 | 譛螟ｧ蜿榊ｾｩ謨ｰ |
+| `RALPH_COMPLETION_PROMISE` | `RALPH_NIGHTLY_COMPLETE` | 蜈ｨ菴灘ｮ御ｺ・・繝ｼ繧ｫ繝ｼ |
+| `RALPH_BLOCKED_PROMISE` | `RALPH_NIGHTLY_BLOCKED` | 繝悶Ο繝・け譎ゅ・繝ｼ繧ｫ繝ｼ |
 
 ## Execution Flow
 
 ```
-1. ロック取得 (.kiro/ralph/.lock)
-     ↓
-2. キューファイル読み込み
-     ↓
-3. タスクループ（優先度順）
-   ├── タスク開始
-   ├── 品質ゲート実行
-   ├── エラー時 → リカバリー戦略
-   ├── 完了マーカー出力
-   ├── チェックポイント保存
-   └── 次のタスクへ
-     ↓
-4. 完了/ブロック判定
-     ↓
-5. 朝のレビュー用レポート生成
-     ↓
-6. ロック解放
+1. 繝ｭ繝・け蜿門ｾ・(.sd/ralph/.lock)
+     竊・2. 繧ｭ繝･繝ｼ繝輔ぃ繧､繝ｫ隱ｭ縺ｿ霎ｼ縺ｿ
+     竊・3. 繧ｿ繧ｹ繧ｯ繝ｫ繝ｼ繝暦ｼ亥━蜈亥ｺｦ鬆・ｼ・   笏懌楳笏 繧ｿ繧ｹ繧ｯ髢句ｧ・   笏懌楳笏 蜩∬ｳｪ繧ｲ繝ｼ繝亥ｮ溯｡・   笏懌楳笏 繧ｨ繝ｩ繝ｼ譎・竊・繝ｪ繧ｫ繝舌Μ繝ｼ謌ｦ逡･
+   笏懌楳笏 螳御ｺ・・繝ｼ繧ｫ繝ｼ蜃ｺ蜉・   笏懌楳笏 繝√ぉ繝・け繝昴う繝ｳ繝井ｿ晏ｭ・   笏披楳笏 谺｡縺ｮ繧ｿ繧ｹ繧ｯ縺ｸ
+     竊・4. 螳御ｺ・繝悶Ο繝・け蛻､螳・     竊・5. 譛昴・繝ｬ繝薙Η繝ｼ逕ｨ繝ｬ繝昴・繝育函謌・     竊・6. 繝ｭ繝・け隗｣謾ｾ
 ```
 
 ## Recovery Patterns
 
 | Pattern | Description |
 |---------|-------------|
-| 1 | Build Error - 型エラー自動修正 |
-| 2 | Test Failure - 実装/テスト修正 |
-| 3 | Lint Error - --fix + 手動修正 |
-| 4 | Infinite Loop - 適応的検知 + スキップ |
-| 5 | External Dependency - サーキットブレーカー |
+| 1 | Build Error - 蝙九お繝ｩ繝ｼ閾ｪ蜍穂ｿｮ豁｣ |
+| 2 | Test Failure - 螳溯｣・繝・せ繝井ｿｮ豁｣ |
+| 3 | Lint Error - --fix + 謇句虚菫ｮ豁｣ |
+| 4 | Infinite Loop - 驕ｩ蠢懃噪讀懃衍 + 繧ｹ繧ｭ繝・・ |
+| 5 | External Dependency - 繧ｵ繝ｼ繧ｭ繝・ヨ繝悶Ξ繝ｼ繧ｫ繝ｼ |
 | 6 | Unexpected - graceful-exit |
-| 7 | Recovery Exhaustion - スキップ + エスカレーション |
+| 7 | Recovery Exhaustion - 繧ｹ繧ｭ繝・・ + 繧ｨ繧ｹ繧ｫ繝ｬ繝ｼ繧ｷ繝ｧ繝ｳ |
 
 ## Output
 
-### 成功時
-```
+### 謌仙粥譎・```
 <promise>RALPH_NIGHTLY_COMPLETE</promise>
 ```
 
-### ブロック時
-```
+### 繝悶Ο繝・け譎・```
 <promise>RALPH_NIGHTLY_BLOCKED</promise>
 ```
 
@@ -77,20 +62,19 @@ prompt = """
 
 | File | Purpose |
 |------|---------|
-| `.kiro/ralph/nightly-queue.md` | 実行キュー |
-| `.kiro/ralph/recovery/checkpoints/` | チェックポイント |
-| `.kiro/ralph/logs/{date}-*.md` | 実行ログ |
-| `.kiro/ai-coordination/workflow/review/ralph/` | 朝のレビューレポート |
+| `.sd/ralph/nightly-queue.md` | 螳溯｡後く繝･繝ｼ |
+| `.sd/ralph/recovery/checkpoints/` | 繝√ぉ繝・け繝昴う繝ｳ繝・|
+| `.sd/ralph/logs/{date}-*.md` | 螳溯｡後Ο繧ｰ |
+| `.sd/ai-coordination/workflow/review/ralph/` | 譛昴・繝ｬ繝薙Η繝ｼ繝ｬ繝昴・繝・|
 
 ## Related Commands
 
-- `/ralph-wiggum:status` - 実行状況確認
-- `/ralph-wiggum:plan` - 週次計画作成
+- `/ralph-wiggum:status` - 螳溯｡檎憾豕∫｢ｺ隱・- `/ralph-wiggum:plan` - 騾ｱ谺｡險育判菴懈・
 
 ## Specification
 
-- `.kiro/specs/ralph-wiggum/requirements.md`
-- `.kiro/specs/ralph-wiggum/design.md`
+- `.sd/specs/ralph-wiggum/requirements.md`
+- `.sd/specs/ralph-wiggum/design.md`
 
 ---
 

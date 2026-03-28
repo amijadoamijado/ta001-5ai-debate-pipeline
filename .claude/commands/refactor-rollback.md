@@ -1,12 +1,11 @@
----
+﻿---
 description: Rollback refactoring to a checkpoint
 allowed-tools: Bash, Read, Write, AskUserQuestion
 ---
 
 # /refactor:rollback
 
-リファクタリングの変更を特定のチェックポイントにロールバックする。
-
+繝ｪ繝輔ぃ繧ｯ繧ｿ繝ｪ繝ｳ繧ｰ縺ｮ螟画峩繧堤音螳壹・繝√ぉ繝・け繝昴う繝ｳ繝医↓繝ｭ繝ｼ繝ｫ繝舌ャ繧ｯ縺吶ｋ縲・
 ## Usage
 
 ```
@@ -14,11 +13,8 @@ allowed-tools: Bash, Read, Write, AskUserQuestion
 ```
 
 **Arguments:**
-- `target`: 以下のいずれか:
-  - `last` - 直前のチェックポイントに戻す（デフォルト）
-  - `checkpoint-{id}` - 特定のチェックポイントに戻す
-  - `full` - セッション全体を初期状態に戻す
-  - `list` - 利用可能なチェックポイント一覧を表示
+- `target`: 莉･荳九・縺・★繧後°:
+  - `last` - 逶ｴ蜑阪・繝√ぉ繝・け繝昴う繝ｳ繝医↓謌ｻ縺呻ｼ医ョ繝輔か繝ｫ繝茨ｼ・  - `checkpoint-{id}` - 迚ｹ螳壹・繝√ぉ繝・け繝昴う繝ｳ繝医↓謌ｻ縺・  - `full` - 繧ｻ繝・す繝ｧ繝ｳ蜈ｨ菴薙ｒ蛻晄悄迥ｶ諷九↓謌ｻ縺・  - `list` - 蛻ｩ逕ｨ蜿ｯ閭ｽ縺ｪ繝√ぉ繝・け繝昴う繝ｳ繝井ｸ隕ｧ繧定｡ｨ遉ｺ
 
 ## Execution Steps
 
@@ -38,18 +34,18 @@ Use: /refactor:rollback checkpoint-001
 
 ### Step 2: Confirm Rollback
 
-AskUserQuestionで確認（提案型、自動実行しない）:
+AskUserQuestion縺ｧ遒ｺ隱搾ｼ域署譯亥梛縲∬・蜍募ｮ溯｡後＠縺ｪ縺・ｼ・
 
 ```yaml
-Question: "{target}にロールバックしますか？以下の変更が破棄されます: {affected_batches}"
-Header: "確認"
+Question: "{target}縺ｫ繝ｭ繝ｼ繝ｫ繝舌ャ繧ｯ縺励∪縺吶°・滉ｻ･荳九・螟画峩縺檎ｴ譽・＆繧後∪縺・ {affected_batches}"
+Header: "遒ｺ隱・
 Options:
-  - label: "はい、ロールバック"
-    description: "{target}に復元し、{N}ファイルの変更を破棄"
-  - label: "いいえ、キャンセル"
-    description: "現在の状態を維持"
-  - label: "差分を表示"
-    description: "失われる変更内容を表示"
+  - label: "縺ｯ縺・√Ο繝ｼ繝ｫ繝舌ャ繧ｯ"
+    description: "{target}縺ｫ蠕ｩ蜈・＠縲＋N}繝輔ぃ繧､繝ｫ縺ｮ螟画峩繧堤ｴ譽・
+  - label: "縺・＞縺医√く繝｣繝ｳ繧ｻ繝ｫ"
+    description: "迴ｾ蝨ｨ縺ｮ迥ｶ諷九ｒ邯ｭ謖・
+  - label: "蟾ｮ蛻・ｒ陦ｨ遉ｺ"
+    description: "螟ｱ繧上ｌ繧句､画峩蜀・ｮｹ繧定｡ｨ遉ｺ"
 ```
 
 ### Step 3: Execute Rollback
@@ -58,7 +54,7 @@ Options:
 
 ```bash
 # Find stash reference
-stash_ref=$(cat .kiro/refactor/checkpoints/{session-id}/{target}.json | jq -r '.stash_ref')
+stash_ref=$(cat .sd/refactor/checkpoints/{session-id}/{target}.json | jq -r '.stash_ref')
 
 # Pop the stash
 git stash pop $stash_ref
@@ -68,7 +64,7 @@ git stash pop $stash_ref
 
 ```bash
 # Find commit before changes
-commit=$(cat .kiro/refactor/checkpoints/{session-id}/{target}.json | jq -r '.commit_before')
+commit=$(cat .sd/refactor/checkpoints/{session-id}/{target}.json | jq -r '.commit_before')
 
 # Hard reset
 git reset --hard $commit
@@ -78,7 +74,7 @@ git reset --hard $commit
 
 ```bash
 # Reset to initial checkpoint
-initial=$(cat .kiro/refactor/checkpoints/{session-id}/checkpoint-000-init.json | jq -r '.commit_before')
+initial=$(cat .sd/refactor/checkpoints/{session-id}/checkpoint-000-init.json | jq -r '.commit_before')
 git reset --hard $initial
 ```
 
@@ -144,7 +140,7 @@ Before rollback:
 
 1. **Verify checkpoint exists**
    ```bash
-   test -f .kiro/refactor/checkpoints/{session-id}/{target}.json
+   test -f .sd/refactor/checkpoints/{session-id}/{target}.json
    ```
 
 2. **Check git status**

@@ -1,11 +1,11 @@
-# Session Management
+﻿# Session Management
 
 ## Two-Layer Memory Structure
 
 | Layer | File | Purpose |
 |-------|------|---------|
-| Long-term | `.kiro/sessions/TIMELINE.md` | Project history (timeline) |
-| Short-term | `.kiro/sessions/session-current.md` | Current session details |
+| Long-term | `.sd/sessions/TIMELINE.md` | Project history (timeline) |
+| Short-term | `.sd/sessions/session-current.md` | Current session details |
 
 ## Commands
 
@@ -23,16 +23,16 @@
 |-------|------|---------|
 | 1 | `D:\claudecode\CLAUDE.md` | Global settings (UTF-8 constraints) |
 | 2 | `./CLAUDE.md` | Project settings |
-| 3 | `.kiro/sessions/session-current.md` | Current session (short-term) |
-| 4 | `.kiro/sessions/TIMELINE.md` | Project history (long-term) |
+| 3 | `.sd/sessions/session-current.md` | Current session (short-term) |
+| 4 | `.sd/sessions/TIMELINE.md` | Project history (long-term) |
 
 **Use at session start to load all context automatically.**
 
 ## File Locations
 
-- **History**: `.kiro/sessions/session-YYYYMMDD-HHMMSS.md`
-- **Latest**: `.kiro/sessions/session-current.md`
-- **Timeline**: `.kiro/sessions/TIMELINE.md`
+- **History**: `.sd/sessions/session-YYYYMMDD-HHMMSS.md`
+- **Latest**: `.sd/sessions/session-current.md`
+- **Timeline**: `.sd/sessions/TIMELINE.md`
 
 ## Saved Information
 
@@ -69,13 +69,13 @@ claude --continue
 
 ```
 Crash occurs
-    ↓
-claude --continue   ← Restores conversation (may include unsaved work)
-    ↓
-/sessionread        ← Loads all 4 files (global, project, session, timeline)
-    ↓
+    竊・
+claude --continue   竊・Restores conversation (may include unsaved work)
+    竊・
+/sessionread        竊・Loads all 4 files (global, project, session, timeline)
+    竊・
 Compare and determine what was lost
-    ↓
+    竊・
 Continue work
 ```
 
@@ -105,32 +105,32 @@ Continue work
 ### Notes
 ```
 
-## Deployment to New Projects（⚠️ 省略禁止）
+## Deployment to New Projects・遺國・・逵∫払遖∵ｭ｢・・
 
-SD002を新規プロジェクトに展開する際、セッション管理は**必須コンポーネント**。
+SD002繧呈眠隕上・繝ｭ繧ｸ繧ｧ繧ｯ繝医↓螻暮幕縺吶ｋ髫帙√そ繝・す繝ｧ繝ｳ邂｡逅・・**蠢・医さ繝ｳ繝昴・繝阪Φ繝・*縲・
 
-### 必須ファイルチェックリスト
+### 蠢・医ヵ繧｡繧､繝ｫ繝√ぉ繝・け繝ｪ繧ｹ繝・
 
-| # | ファイル | 種別 | 確認 |
+| # | 繝輔ぃ繧､繝ｫ | 遞ｮ蛻･ | 遒ｺ隱・|
 |---|---------|------|------|
-| 1 | `.claude/commands/sessionread.md` | コピー | ☐ |
-| 2 | `.claude/commands/sessionwrite.md` | コピー | ☐ |
-| 3 | `.claude/commands/sessionhistory.md` | コピー | ☐ |
-| 4 | `.claude/rules/session/session-management.md` | コピー | ☐ |
-| 5 | `.kiro/sessions/session-template.md` | コピー | ☐ |
-| 6 | `.kiro/sessions/session-current.md` | **新規作成** | ☐ |
-| 7 | `.kiro/sessions/TIMELINE.md` | **新規作成** | ☐ |
+| 1 | `.claude/commands/sessionread.md` | 繧ｳ繝斐・ | 笘・|
+| 2 | `.claude/commands/sessionwrite.md` | 繧ｳ繝斐・ | 笘・|
+| 3 | `.claude/commands/sessionhistory.md` | 繧ｳ繝斐・ | 笘・|
+| 4 | `.claude/rules/session/session-management.md` | 繧ｳ繝斐・ | 笘・|
+| 5 | `.sd/sessions/session-template.md` | 繧ｳ繝斐・ | 笘・|
+| 6 | `.sd/sessions/session-current.md` | **譁ｰ隕丈ｽ懈・** | 笘・|
+| 7 | `.sd/sessions/TIMELINE.md` | **譁ｰ隕丈ｽ懈・** | 笘・|
 
-### 注意事項
+### 豕ｨ諢丈ｺ矩・
 
-- **session-current.md と TIMELINE.md はコピーではなく新規作成する**（プロジェクト固有の初期内容）
-- 展開後すぐに `/sessionread` で動作確認
-- 失敗した場合: 上記7ファイルの存在を確認
+- **session-current.md 縺ｨ TIMELINE.md 縺ｯ繧ｳ繝斐・縺ｧ縺ｯ縺ｪ縺乗眠隕丈ｽ懈・縺吶ｋ**・医・繝ｭ繧ｸ繧ｧ繧ｯ繝亥崋譛峨・蛻晄悄蜀・ｮｹ・・
+- 螻暮幕蠕後☆縺舌↓ `/sessionread` 縺ｧ蜍穂ｽ懃｢ｺ隱・
+- 螟ｱ謨励＠縺溷ｴ蜷・ 荳願ｨ・繝輔ぃ繧､繝ｫ縺ｮ蟄伜惠繧堤｢ｺ隱・
 
-### 展開コマンド
+### 螻暮幕繧ｳ繝槭Φ繝・
 
 ```bash
-/kiro:deploy <target-project-path>
+/sd:deploy <target-project-path>
 ```
 
-詳細手順: `.claude/skills/kiro-deploy/README.md`
+隧ｳ邏ｰ謇矩・ `.claude/skills/sd-deploy/README.md`

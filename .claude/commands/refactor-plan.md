@@ -1,12 +1,11 @@
----
+﻿---
 description: Generate detailed execution plan from analysis
 allowed-tools: Task, Read, Write, Bash, Glob, Grep, TodoWrite
 ---
 
 # /refactor:plan
 
-分析レポートから詳細なバッチ実行計画を生成する。
-
+蛻・梵繝ｬ繝昴・繝医°繧芽ｩｳ邏ｰ縺ｪ繝舌ャ繝∝ｮ溯｡瑚ｨ育判繧堤函謌舌☆繧九・
 ## Usage
 
 ```
@@ -14,12 +13,11 @@ allowed-tools: Task, Read, Write, Bash, Glob, Grep, TodoWrite
 ```
 
 **Arguments:**
-- `session-id`: （オプション）/refactor:initで生成されたセッションID。省略時は最新を使用。
-
+- `session-id`: ・医が繝励す繝ｧ繝ｳ・・refactor:init縺ｧ逕滓・縺輔ｌ縺溘そ繝・す繝ｧ繝ｳID縲ら怐逡･譎ゅ・譛譁ｰ繧剃ｽｿ逕ｨ縲・
 ## Prerequisites
 
-- `/refactor:init`が正常に完了していること
-- 分析レポートが`.kiro/refactor/plans/{session-id}/analysis-report.md`に存在すること
+- `/refactor:init`縺梧ｭ｣蟶ｸ縺ｫ螳御ｺ・＠縺ｦ縺・ｋ縺薙→
+- 蛻・梵繝ｬ繝昴・繝医′`.sd/refactor/plans/{session-id}/analysis-report.md`縺ｫ蟄伜惠縺吶ｋ縺薙→
 
 ## Execution Steps
 
@@ -104,7 +102,7 @@ Create batch manifest JSON:
 }
 ```
 
-Save to: `.kiro/refactor/plans/{session-id}/batch-manifest.json`
+Save to: `.sd/refactor/plans/{session-id}/batch-manifest.json`
 
 ### Step 4: Generate Execution Plan Document
 
@@ -188,7 +186,7 @@ If any batch fails:
 3. Use `/refactor:rollback checkpoint-{N}` to restore
 ```
 
-Save to: `.kiro/refactor/plans/{session-id}/execution-plan.md`
+Save to: `.sd/refactor/plans/{session-id}/execution-plan.md`
 
 ### Step 5: Update Todo List
 
@@ -214,7 +212,7 @@ Execution plan generated:
 - Total files: 6
 - Estimated time: 28 min
 
-Plan saved to: .kiro/refactor/plans/{session-id}/
+Plan saved to: .sd/refactor/plans/{session-id}/
 
 Next step: /refactor:batch to start execution
 ```
@@ -229,10 +227,10 @@ Next step: /refactor:batch to start execution
 ## Files Created
 
 ```
-.kiro/refactor/plans/{session-id}/
-├── analysis-report.md (from /refactor:init)
-├── batch-manifest.json (NEW)
-└── execution-plan.md (NEW)
+.sd/refactor/plans/{session-id}/
+笏懌楳笏 analysis-report.md (from /refactor:init)
+笏懌楳笏 batch-manifest.json (NEW)
+笏披楳笏 execution-plan.md (NEW)
 ```
 
 ## Batch Ordering Rules

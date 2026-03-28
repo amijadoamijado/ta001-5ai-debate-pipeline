@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+﻿#!/usr/bin/env node
 
 /**
  * Sync custom Codex prompts from Claude commands.
@@ -12,7 +12,7 @@
  *
  * Naming rules:
  * - Keep original relative path (e.g. kiro/spec-init.md)
- * - Add flat alias for nested files (e.g. kiro-spec-init.md)
+ * - Add flat alias for nested files (e.g. sd-spec-init.md)
  * - If a flat alias conflicts with an existing command, keep the first one
  */
 

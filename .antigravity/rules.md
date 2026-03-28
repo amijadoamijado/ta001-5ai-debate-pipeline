@@ -1,4 +1,4 @@
-# SD002 Framework - Antigravity Rules
+﻿# SD002 Framework - Antigravity Rules
 
 ## Overview
 SD002: Spec-Driven Development framework integrating SD001 and GA001 for AI-driven GAS development.
@@ -12,7 +12,7 @@ SD002: Spec-Driven Development framework integrating SD001 and GA001 for AI-driv
 | `tests/` | Tests |
 | `docs/` | Documentation |
 | `materials/` | Reference materials & deliverables |
-| `.kiro/` | Specs, sessions, settings |
+| `.sd/` | Specs, sessions, settings |
 | `.claude/rules/` | Development rules |
 
 ## Design Principles
@@ -38,13 +38,13 @@ When user prompt contains these keywords, AUTOMATICALLY execute the correspondin
 
 | Trigger Keyword | Action | Template |
 |----------------|--------|----------|
-| "test request", "test instruction" | Read TEST_REQUEST from spec folder | `.kiro/ai-coordination/workflow/spec/{projectID}/` |
-| "test report", "report results" | Create TEST_REPORT in review folder | `.kiro/ai-coordination/workflow/review/{projectID}/` |
-| "create instruction", "create request" | Use template from templates folder | `.kiro/ai-coordination/workflow/templates/` |
+| "test request", "test instruction" | Read TEST_REQUEST from spec folder | `.sd/ai-coordination/workflow/spec/{projectID}/` |
+| "test report", "report results" | Create TEST_REPORT in review folder | `.sd/ai-coordination/workflow/review/{projectID}/` |
+| "create instruction", "create request" | Use template from templates folder | `.sd/ai-coordination/workflow/templates/` |
 
 ### File Location Rules (ABSOLUTE)
 
-**ALL requests and reports MUST be in `.kiro/ai-coordination/`**
+**ALL requests and reports MUST be in `.sd/ai-coordination/`**
 
 | File Type | Location | Example |
 |-----------|----------|---------|
@@ -62,17 +62,17 @@ When user prompt contains these keywords, AUTOMATICALLY execute the correspondin
 
 **When receiving a test request:**
 ```
-1. Look for TEST_REQUEST in: .kiro/ai-coordination/workflow/spec/{projectID}/
+1. Look for TEST_REQUEST in: .sd/ai-coordination/workflow/spec/{projectID}/
 2. Execute tests as specified
 3. Capture screenshots
-4. Create TEST_REPORT in: .kiro/ai-coordination/workflow/review/{projectID}/
+4. Create TEST_REPORT in: .sd/ai-coordination/workflow/review/{projectID}/
 5. Record in handoff-log.json
 ```
 
 **When asked to create a test request:**
 ```
-1. Use template: .kiro/ai-coordination/workflow/templates/TEST_REQUEST.md
-2. Save to: .kiro/ai-coordination/workflow/spec/{projectID}/TEST_REQUEST_{NNN}.md
+1. Use template: .sd/ai-coordination/workflow/templates/TEST_REQUEST.md
+2. Save to: .sd/ai-coordination/workflow/spec/{projectID}/TEST_REQUEST_{NNN}.md
 3. Record in handoff-log.json
 ```
 

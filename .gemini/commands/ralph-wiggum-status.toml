@@ -1,9 +1,8 @@
-description = "No description"
+﻿description = "No description"
 prompt = """
 # /ralph-wiggum:status - Execution Status
 
-夜間実行の状況を確認する。
-
+螟憺俣螳溯｡後・迥ｶ豕√ｒ遒ｺ隱阪☆繧九・
 ## Usage
 
 ```
@@ -12,86 +11,78 @@ prompt = """
 
 ## Output
 
-### 実行中の場合
-
+### 螳溯｡御ｸｭ縺ｮ蝣ｴ蜷・
 ```markdown
 ## Ralph Wiggum Status: RUNNING
 
-| 項目 | 値 |
+| 鬆・岼 | 蛟､ |
 |------|-----|
-| 開始時刻 | 2026-01-04 23:00:00 |
-| 現在の反復 | 25/60 |
-| 完了タスク | 3/5 |
-| 現在のタスク | TASK4 |
+| 髢句ｧ区凾蛻ｻ | 2026-01-04 23:00:00 |
+| 迴ｾ蝨ｨ縺ｮ蜿榊ｾｩ | 25/60 |
+| 螳御ｺ・ち繧ｹ繧ｯ | 3/5 |
+| 迴ｾ蝨ｨ縺ｮ繧ｿ繧ｹ繧ｯ | TASK4 |
 
-### 完了タスク
+### 螳御ｺ・ち繧ｹ繧ｯ
 - [x] RALPH_TASK1_DONE
 - [x] RALPH_TASK2_DONE
 - [x] RALPH_TASK3_DONE
 
-### 残りタスク
+### 谿九ｊ繧ｿ繧ｹ繧ｯ
 - [ ] TASK4 (in progress)
 - [ ] TASK5
 
-### 直近のエラー
-- なし
-
-### 品質ゲート状況
-- build: pass
+### 逶ｴ霑代・繧ｨ繝ｩ繝ｼ
+- 縺ｪ縺・
+### 蜩∬ｳｪ繧ｲ繝ｼ繝育憾豕・- build: pass
 - test: pass
 - lint: pass
 ```
 
-### 完了済みの場合
-
+### 螳御ｺ・ｸ医∩縺ｮ蝣ｴ蜷・
 ```markdown
 ## Ralph Wiggum Status: COMPLETE
 
-| 項目 | 値 |
+| 鬆・岼 | 蛟､ |
 |------|-----|
-| 実行時刻 | 2026-01-04 23:00:00 - 03:45:00 |
-| 使用反復 | 45/60 |
-| 完了タスク | 5/5 |
-| 成功率 | 100% |
+| 螳溯｡梧凾蛻ｻ | 2026-01-04 23:00:00 - 03:45:00 |
+| 菴ｿ逕ｨ蜿榊ｾｩ | 45/60 |
+| 螳御ｺ・ち繧ｹ繧ｯ | 5/5 |
+| 謌仙粥邇・| 100% |
 
-### 完了マーカー
+### 螳御ｺ・・繝ｼ繧ｫ繝ｼ
 <promise>RALPH_NIGHTLY_COMPLETE</promise>
 
-### 朝のレビュー
-`.kiro/ai-coordination/workflow/review/ralph/NIGHTLY_REPORT_20260104.md`
+### 譛昴・繝ｬ繝薙Η繝ｼ
+`.sd/ai-coordination/workflow/review/ralph/NIGHTLY_REPORT_20260104.md`
 ```
 
-### ブロック済みの場合
-
+### 繝悶Ο繝・け貂医∩縺ｮ蝣ｴ蜷・
 ```markdown
 ## Ralph Wiggum Status: BLOCKED
 
-| 項目 | 値 |
+| 鬆・岼 | 蛟､ |
 |------|-----|
-| 実行時刻 | 2026-01-04 23:00:00 - 02:30:00 |
-| 使用反復 | 50/60 |
-| 完了タスク | 3/5 |
-| スキップ | 1 |
+| 螳溯｡梧凾蛻ｻ | 2026-01-04 23:00:00 - 02:30:00 |
+| 菴ｿ逕ｨ蜿榊ｾｩ | 50/60 |
+| 螳御ｺ・ち繧ｹ繧ｯ | 3/5 |
+| 繧ｹ繧ｭ繝・・ | 1 |
 
-### ブロック理由
+### 繝悶Ο繝・け逅・罰
 - TASK4: Pattern 7 - Recovery exhaustion
 
-### 推奨アクション
-1. `.kiro/ralph/logs/20260104-blocked.md` を確認
-2. 問題を手動で調査・修正
-3. `/ralph-wiggum:run --resume` で再開
+### 謗ｨ螂ｨ繧｢繧ｯ繧ｷ繝ｧ繝ｳ
+1. `.sd/ralph/logs/20260104-blocked.md` 繧堤｢ｺ隱・2. 蝠城｡後ｒ謇句虚縺ｧ隱ｿ譟ｻ繝ｻ菫ｮ豁｣
+3. `/ralph-wiggum:run --resume` 縺ｧ蜀埼幕
 ```
 
 ## Files Checked
 
-- `.kiro/ralph/.lock` - 実行ロック
-- `.kiro/ralph/recovery/checkpoints/latest.json` - 最新チェックポイント
-- `.kiro/ralph/logs/{date}-*.md` - 実行ログ
+- `.sd/ralph/.lock` - 螳溯｡後Ο繝・け
+- `.sd/ralph/recovery/checkpoints/latest.json` - 譛譁ｰ繝√ぉ繝・け繝昴う繝ｳ繝・- `.sd/ralph/logs/{date}-*.md` - 螳溯｡後Ο繧ｰ
 
 ## Related Commands
 
-- `/ralph-wiggum:run` - 夜間キュー実行
-- `/ralph-wiggum:plan` - 週次計画作成
+- `/ralph-wiggum:run` - 螟憺俣繧ｭ繝･繝ｼ螳溯｡・- `/ralph-wiggum:plan` - 騾ｱ谺｡險育判菴懈・
 
 ---
 

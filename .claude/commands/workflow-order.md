@@ -1,76 +1,61 @@
----
-description: AI協調ワークフロー - 発注書（WORK_ORDER）作成
+﻿---
+description: AI蜊碑ｪｿ繝ｯ繝ｼ繧ｯ繝輔Ο繝ｼ - 逋ｺ豕ｨ譖ｸ・・ORK_ORDER・我ｽ懈・
 allowed-tools: Bash, Write, Read, Glob, Grep
 ---
 
-# 発注書作成: /workflow:order
+# 逋ｺ豕ｨ譖ｸ菴懈・: /workflow:order
 
-## 概要
-案件の発注書（WORK_ORDER.md）を作成します。
-
-## 使用方法
-```
-/workflow:order {案件ID}
+## 讎りｦ・譯井ｻｶ縺ｮ逋ｺ豕ｨ譖ｸ・・ORK_ORDER.md・峨ｒ菴懈・縺励∪縺吶・
+## 菴ｿ逕ｨ譁ｹ豕・```
+/workflow:order {譯井ｻｶID}
 ```
 
-## 引数
-- `案件ID`: `/workflow:init` で生成した案件ID
+## 蠑墓焚
+- `譯井ｻｶID`: `/workflow:init` 縺ｧ逕滓・縺励◆譯井ｻｶID
 
-## 前提条件
-- 案件ディレクトリが存在すること（`/workflow:init` 済み）
-- `.kiro/ai-coordination/workflow/spec/{案件ID}/` が存在すること
+## 蜑肴署譚｡莉ｶ
+- 譯井ｻｶ繝・ぅ繝ｬ繧ｯ繝医Μ縺悟ｭ伜惠縺吶ｋ縺薙→・・/workflow:init` 貂医∩・・- `.sd/ai-coordination/workflow/spec/{譯井ｻｶID}/` 縺悟ｭ伜惠縺吶ｋ縺薙→
 
-## 実行手順
-
-### 1. 案件ディレクトリ確認
-```bash
-ls .kiro/ai-coordination/workflow/spec/{案件ID}/
+## 螳溯｡梧焔鬆・
+### 1. 譯井ｻｶ繝・ぅ繝ｬ繧ｯ繝医Μ遒ｺ隱・```bash
+ls .sd/ai-coordination/workflow/spec/{譯井ｻｶID}/
 ```
-存在しない場合は `/workflow:init` を先に実行するよう案内。
+蟄伜惠縺励↑縺・ｴ蜷医・ `/workflow:init` 繧貞・縺ｫ螳溯｡後☆繧九ｈ縺・｡亥・縲・
+### 2. 髢｢騾｣莉墓ｧ俶嶌縺ｮ遒ｺ隱・`.sd/specs/` 驟堺ｸ九↓髢｢騾｣縺吶ｋ莉墓ｧ俶嶌縺後≠繧後・遒ｺ隱阪＠縲∫匱豕ｨ譖ｸ縺ｫ蜿肴丐縲・
+### 3. 繝ｦ繝ｼ繧ｶ繝ｼ縺ｨ縺ｮ蟇ｾ隧ｱ
+莉･荳九・諠・ｱ繧貞庶髮・
 
-### 2. 関連仕様書の確認
-`.kiro/specs/` 配下に関連する仕様書があれば確認し、発注書に反映。
+#### 蠢・磯・岼
+- **逶ｮ逧・*: 縺薙・譯井ｻｶ縺ｧ驕疲・縺吶∋縺阪ン繧ｸ繝阪せ逶ｮ逧・- **閭梧勹**: 縺ｪ縺懊％縺ｮ譯井ｻｶ縺悟ｿ・ｦ√↑縺ｮ縺・- **謌仙粥譚｡莉ｶ**: 謨ｰ蛟､縺ｧ貂ｬ螳壼庄閭ｽ縺ｪ謖・ｨ・- **繧ｹ繧ｳ繝ｼ繝・*: 繧・ｋ縺薙→/繧・ｉ縺ｪ縺・％縺ｨ
 
-### 3. ユーザーとの対話
-以下の情報を収集:
+#### 讌ｭ蜍吶Ν繝ｼ繝ｫ・域･ｭ蜍吶ヤ繝ｼ繝ｫ蜷代￠縺ｫ迚ｹ縺ｫ驥崎ｦ・ｼ・- **讌ｭ蜍吶Ν繝ｼ繝ｫ**: 螳医ｋ縺ｹ縺阪ン繧ｸ繝阪せ繝ｫ繝ｼ繝ｫ
+- **繝・・繧ｿ螳夂ｾｩ**: 蜈･蜃ｺ蜉帙ョ繝ｼ繧ｿ縺ｮ蝙九√ヰ繝ｪ繝・・繧ｷ繝ｧ繝ｳ
+- **萓句､匁擅莉ｶ**: 繧ｨ繝ｩ繝ｼ繧ｱ繝ｼ繧ｹ縺ｨ縺昴・蟇ｾ蠢・
+#### 繝・せ繝医・蜩∬ｳｪ
+- **繝・せ繝郁ｦ∽ｻｶ**: 蠢・ｦ√↑繝・せ繝医こ繝ｼ繧ｹ
+- **螳御ｺ・擅莉ｶ**: 菴輔ｒ繧ゅ▲縺ｦ螳御ｺ・→縺吶ｋ縺・
+### 4. WORK_ORDER.md 菴懈・
+繝・Φ繝励Ξ繝ｼ繝医ｒ菴ｿ逕ｨ縺励※逋ｺ豕ｨ譖ｸ繧剃ｽ懈・:
+- 繝・Φ繝励Ξ繝ｼ繝・ `.sd/ai-coordination/workflow/templates/WORK_ORDER.md`
+- 菫晏ｭ伜・: `.sd/ai-coordination/workflow/spec/{譯井ｻｶID}/WORK_ORDER.md`
 
-#### 必須項目
-- **目的**: この案件で達成すべきビジネス目的
-- **背景**: なぜこの案件が必要なのか
-- **成功条件**: 数値で測定可能な指標
-- **スコープ**: やること/やらないこと
+### 5. PROJECT_STATUS.md 譖ｴ譁ｰ
+`.sd/ai-coordination/workflow/log/{譯井ｻｶID}/PROJECT_STATUS.md` 繧呈峩譁ｰ:
+- 繝輔ぉ繝ｼ繧ｺ1螳御ｺ・√ヵ繧ｧ繝ｼ繧ｺ2・育匱豕ｨ譖ｸ繝ｬ繝薙Η繝ｼ・峨∈
+- 繧ｿ繧､繝繝ｩ繧､繝ｳ縺ｫ險倬鹸霑ｽ蜉
 
-#### 業務ルール（業務ツール向けに特に重要）
-- **業務ルール**: 守るべきビジネスルール
-- **データ定義**: 入出力データの型、バリデーション
-- **例外条件**: エラーケースとその対応
-
-#### テスト・品質
-- **テスト要件**: 必要なテストケース
-- **完了条件**: 何をもって完了とするか
-
-### 4. WORK_ORDER.md 作成
-テンプレートを使用して発注書を作成:
-- テンプレート: `.kiro/ai-coordination/workflow/templates/WORK_ORDER.md`
-- 保存先: `.kiro/ai-coordination/workflow/spec/{案件ID}/WORK_ORDER.md`
-
-### 5. PROJECT_STATUS.md 更新
-`.kiro/ai-coordination/workflow/log/{案件ID}/PROJECT_STATUS.md` を更新:
-- フェーズ1完了、フェーズ2（発注書レビュー）へ
-- タイムラインに記録追加
-
-### 6. handoff-log.json 更新
+### 6. handoff-log.json 譖ｴ譁ｰ
 ```json
 {
   "handoff_history": [
     {
-      "id": "HO-{連番}",
-      "project_id": "{案件ID}",
+      "id": "HO-{騾｣逡ｪ}",
+      "project_id": "{譯井ｻｶID}",
       "from": "Claude Code",
       "to": "Codex",
       "type": "work_order_review",
-      "artifact": ".kiro/ai-coordination/workflow/spec/{案件ID}/WORK_ORDER.md",
-      "timestamp": "{現在日時ISO形式}",
+      "artifact": ".sd/ai-coordination/workflow/spec/{譯井ｻｶID}/WORK_ORDER.md",
+      "timestamp": "{迴ｾ蝨ｨ譌･譎・SO蠖｢蠑殉",
       "status": "pending",
       "result": null
     }
@@ -78,22 +63,18 @@ ls .kiro/ai-coordination/workflow/spec/{案件ID}/
 }
 ```
 
-### 7. 完了報告
-```
-## 発注書作成完了
+### 7. 螳御ｺ・ｱ蜻・```
+## 逋ｺ豕ｨ譖ｸ菴懈・螳御ｺ・
+- **譯井ｻｶID**: {譯井ｻｶID}
+- **逋ｺ豕ｨ譖ｸ**: .sd/ai-coordination/workflow/spec/{譯井ｻｶID}/WORK_ORDER.md
 
-- **案件ID**: {案件ID}
-- **発注書**: .kiro/ai-coordination/workflow/spec/{案件ID}/WORK_ORDER.md
-
-## 次のステップ
-1. Codexに発注書レビューを依頼してください
-   - 手順: `.kiro/ai-coordination/workflow/CODEX_GUIDE.md` 参照
-2. レビューApprove後、`/workflow:request {案件ID} 001` で実装指示を作成
+## 谺｡縺ｮ繧ｹ繝・ャ繝・1. Codex縺ｫ逋ｺ豕ｨ譖ｸ繝ｬ繝薙Η繝ｼ繧剃ｾ晞ｼ縺励※縺上□縺輔＞
+   - 謇矩・ `.sd/ai-coordination/workflow/CODEX_GUIDE.md` 蜿ら・
+2. 繝ｬ繝薙Η繝ｼApprove蠕後～/workflow:request {譯井ｻｶID} 001` 縺ｧ螳溯｣・欠遉ｺ繧剃ｽ懈・
 ```
 
-## ユーザー入力
-$ARGUMENTS
+## 繝ｦ繝ｼ繧ｶ繝ｼ蜈･蜉・$ARGUMENTS
 
 ---
 
-**実行開始**: 上記手順に従って発注書を作成してください。ユーザーから必要な情報を収集し、詳細な発注書を作成すること。
+**螳溯｡碁幕蟋・*: 荳願ｨ俶焔鬆・↓蠕薙▲縺ｦ逋ｺ豕ｨ譖ｸ繧剃ｽ懈・縺励※縺上□縺輔＞縲ゅΘ繝ｼ繧ｶ繝ｼ縺九ｉ蠢・ｦ√↑諠・ｱ繧貞庶髮・＠縲∬ｩｳ邏ｰ縺ｪ逋ｺ豕ｨ譖ｸ繧剃ｽ懈・縺吶ｋ縺薙→縲・

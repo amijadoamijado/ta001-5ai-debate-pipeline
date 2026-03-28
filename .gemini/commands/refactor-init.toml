@@ -1,9 +1,8 @@
-description = "Initialize refactoring session with parallel impact analysis"
+﻿description = "Initialize refactoring session with parallel impact analysis"
 prompt = """
 # /refactor:init
 
-3並列サブエージェントによる包括的影響分析でリファクタリングセッションを初期化する。
-
+3荳ｦ蛻励し繝悶お繝ｼ繧ｸ繧ｧ繝ｳ繝医↓繧医ｋ蛹・峡逧・ｽｱ髻ｿ蛻・梵縺ｧ繝ｪ繝輔ぃ繧ｯ繧ｿ繝ｪ繝ｳ繧ｰ繧ｻ繝・す繝ｧ繝ｳ繧貞・譛溷喧縺吶ｋ縲・
 ## Usage
 
 ```
@@ -11,30 +10,27 @@ prompt = """
 ```
 
 **Arguments:**
-- `scope_description`: リファクタリング対象（例: \"getUserByIdをfetchUserにリネーム\", \"認証ロジックをサービスに抽出\"）
+- `scope_description`: 繝ｪ繝輔ぃ繧ｯ繧ｿ繝ｪ繝ｳ繧ｰ蟇ｾ雎｡・井ｾ・ \"getUserById繧断etchUser縺ｫ繝ｪ繝阪・繝\", \"隱崎ｨｼ繝ｭ繧ｸ繝・け繧偵し繝ｼ繝薙せ縺ｫ謚ｽ蜃ｺ\"・・
+## 繧ｹ繧ｳ繝ｼ繝玲悴謖・ｮ壽凾
 
-## スコープ未指定時
-
-引数なしで実行された場合、AskUserQuestionでスコープを確認:
+蠑墓焚縺ｪ縺励〒螳溯｡後＆繧後◆蝣ｴ蜷医、skUserQuestion縺ｧ繧ｹ繧ｳ繝ｼ繝励ｒ遒ｺ隱・
 
 ```yaml
-Question: \"リファクタリングの対象を選択してください\"
-Header: \"スコープ\"
+Question: \"繝ｪ繝輔ぃ繧ｯ繧ｿ繝ｪ繝ｳ繧ｰ縺ｮ蟇ｾ雎｡繧帝∈謚槭＠縺ｦ縺上□縺輔＞\"
+Header: \"繧ｹ繧ｳ繝ｼ繝予"
 Options:
-  - label: \"シンボル/関数のリネーム\"
-    description: \"関数、変数、クラス名をコードベース全体で変更\"
-  - label: \"モジュール/サービスへの抽出\"
-    description: \"ロジックを別モジュールまたはサービスに分離\"
-  - label: \"重複コードの統合\"
-    description: \"重複パターンを共通ユーティリティに統合\"
-  - label: \"コードのクリーンアップ\"
-    description: \"不要なコード、デバッグ用コード、未使用の関数・変数を削除\"
+  - label: \"繧ｷ繝ｳ繝懊Ν/髢｢謨ｰ縺ｮ繝ｪ繝阪・繝\"
+    description: \"髢｢謨ｰ縲∝､画焚縲√け繝ｩ繧ｹ蜷阪ｒ繧ｳ繝ｼ繝峨・繝ｼ繧ｹ蜈ｨ菴薙〒螟画峩\"
+  - label: \"繝｢繧ｸ繝･繝ｼ繝ｫ/繧ｵ繝ｼ繝薙せ縺ｸ縺ｮ謚ｽ蜃ｺ\"
+    description: \"繝ｭ繧ｸ繝・け繧貞挨繝｢繧ｸ繝･繝ｼ繝ｫ縺ｾ縺溘・繧ｵ繝ｼ繝薙せ縺ｫ蛻・屬\"
+  - label: \"驥崎､・さ繝ｼ繝峨・邨ｱ蜷・"
+    description: \"驥崎､・ヱ繧ｿ繝ｼ繝ｳ繧貞・騾壹Θ繝ｼ繝・ぅ繝ｪ繝・ぅ縺ｫ邨ｱ蜷・"
+  - label: \"繧ｳ繝ｼ繝峨・繧ｯ繝ｪ繝ｼ繝ｳ繧｢繝・・\"
+    description: \"荳崎ｦ√↑繧ｳ繝ｼ繝峨√ョ繝舌ャ繧ｰ逕ｨ繧ｳ繝ｼ繝峨∵悴菴ｿ逕ｨ縺ｮ髢｢謨ｰ繝ｻ螟画焚繧貞炎髯､\"
 ```
 
-選択後、具体的な対象を入力させる。
-
-**注意**: 「ファイル構造の再編成」は「Other」から自由入力で指定可能。
-
+驕ｸ謚槫ｾ後∝・菴鍋噪縺ｪ蟇ｾ雎｡繧貞・蜉帙＆縺帙ｋ縲・
+**豕ｨ諢・*: 縲後ヵ繧｡繧､繝ｫ讒矩縺ｮ蜀咲ｷｨ謌舌阪・縲薫ther縲阪°繧芽・逕ｱ蜈･蜉帙〒謖・ｮ壼庄閭ｽ縲・
 ## Execution Steps
 
 ### Step 1: Session Initialization
@@ -45,8 +41,8 @@ Generate session ID and create directory structure:
 Session ID: refactor-{YYYYMMDD}-{HHMMSS}
 
 Directories:
-.kiro/refactor/checkpoints/{session-id}/
-.kiro/refactor/plans/{session-id}/
+.sd/refactor/checkpoints/{session-id}/
+.sd/refactor/plans/{session-id}/
 ```
 
 Create initial checkpoint (checkpoint-000-init):
@@ -138,35 +134,32 @@ Combine all agent outputs into analysis report:
 - Risk Level: {low/medium/high}
 ```
 
-Save to: `.kiro/refactor/plans/{session-id}/analysis-report.md`
+Save to: `.sd/refactor/plans/{session-id}/analysis-report.md`
 
 ### Step 4: User Confirmation
 
-AskUserQuestionで確認:
+AskUserQuestion縺ｧ遒ｺ隱・
 
 ```yaml
-Question: \"分析完了。{N}ファイルが{M}バッチに影響。続行しますか？\"
-Header: \"続行\"
+Question: \"蛻・梵螳御ｺ・・N}繝輔ぃ繧､繝ｫ縺鶏M}繝舌ャ繝√↓蠖ｱ髻ｿ縲らｶ夊｡後＠縺ｾ縺吶°・歃"
+Header: \"邯夊｡圭"
 Options:
-  - label: \"はい、実行計画を生成\"
-    description: \"/refactor:planでバッチマニフェストを作成\"
-  - label: \"影響ファイルを表示\"
-    description: \"決定前に全ファイルリストを表示\"
-  - label: \"スコープを変更\"
-    description: \"リファクタリング範囲を調整して再分析\"
-  - label: \"中止\"
-    description: \"リファクタリングセッションをキャンセル\"
+  - label: \"縺ｯ縺・∝ｮ溯｡瑚ｨ育判繧堤函謌申"
+    description: \"/refactor:plan縺ｧ繝舌ャ繝√・繝九ヵ繧ｧ繧ｹ繝医ｒ菴懈・\"
+  - label: \"蠖ｱ髻ｿ繝輔ぃ繧､繝ｫ繧定｡ｨ遉ｺ\"
+    description: \"豎ｺ螳壼燕縺ｫ蜈ｨ繝輔ぃ繧､繝ｫ繝ｪ繧ｹ繝医ｒ陦ｨ遉ｺ\"
+  - label: \"繧ｹ繧ｳ繝ｼ繝励ｒ螟画峩\"
+    description: \"繝ｪ繝輔ぃ繧ｯ繧ｿ繝ｪ繝ｳ繧ｰ遽・峇繧定ｪｿ謨ｴ縺励※蜀榊・譫申"
+  - label: \"荳ｭ豁｢\"
+    description: \"繝ｪ繝輔ぃ繧ｯ繧ｿ繝ｪ繝ｳ繧ｰ繧ｻ繝・す繝ｧ繝ｳ繧偵く繝｣繝ｳ繧ｻ繝ｫ\"
 ```
 
 ### Step 5: Next Steps
 
-ユーザー選択に応じて:
+繝ｦ繝ｼ繧ｶ繝ｼ驕ｸ謚槭↓蠢懊§縺ｦ:
 
-- **はい**: `REFACTOR_INIT_COMPLETE`を出力し、`/refactor:plan`を提案
-- **影響ファイル表示**: ファイルリストを表示後、再度確認
-- **スコープ変更**: 新しいスコープを入力させ、Step 2から再開
-- **中止**: セッションディレクトリをクリーンアップし、`REFACTOR_ABORTED`を出力
-
+- **縺ｯ縺・*: `REFACTOR_INIT_COMPLETE`繧貞・蜉帙＠縲～/refactor:plan`繧呈署譯・- **蠖ｱ髻ｿ繝輔ぃ繧､繝ｫ陦ｨ遉ｺ**: 繝輔ぃ繧､繝ｫ繝ｪ繧ｹ繝医ｒ陦ｨ遉ｺ蠕後∝・蠎ｦ遒ｺ隱・- **繧ｹ繧ｳ繝ｼ繝怜､画峩**: 譁ｰ縺励＞繧ｹ繧ｳ繝ｼ繝励ｒ蜈･蜉帙＆縺帙ヾtep 2縺九ｉ蜀埼幕
+- **荳ｭ豁｢**: 繧ｻ繝・す繝ｧ繝ｳ繝・ぅ繝ｬ繧ｯ繝医Μ繧偵け繝ｪ繝ｼ繝ｳ繧｢繝・・縺励～REFACTOR_ABORTED`繧貞・蜉・
 ## Output Markers
 
 | Marker | Meaning |
@@ -178,11 +171,11 @@ Options:
 ## Session Files Created
 
 ```
-.kiro/refactor/
-├── checkpoints/{session-id}/
-│   └── checkpoint-000-init.json
-└── plans/{session-id}/
-    └── analysis-report.md
+.sd/refactor/
+笏懌楳笏 checkpoints/{session-id}/
+笏・  笏披楳笏 checkpoint-000-init.json
+笏披楳笏 plans/{session-id}/
+    笏披楳笏 analysis-report.md
 ```
 
 ## Integration

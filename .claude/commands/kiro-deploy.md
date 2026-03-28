@@ -1,40 +1,40 @@
----
-description: SD002フレームワークを新規プロジェクトに展開
+﻿---
+description: SD002繝輔Ξ繝ｼ繝繝ｯ繝ｼ繧ｯ繧呈眠隕上・繝ｭ繧ｸ繧ｧ繧ｯ繝医↓螻暮幕
 allowed-tools: Read, Write, Bash, Glob
 ---
 
-# SD002フレームワーク展開 v2.11.0
+# SD002繝輔Ξ繝ｼ繝繝ｯ繝ｼ繧ｯ螻暮幕 v2.11.0
 
-## 使用方法
+## 菴ｿ逕ｨ譁ｹ豕・
 
 ```
-/kiro:deploy <target-project-path>
+/sd:deploy <target-project-path>
 ```
 
-## 入力
+## 蜈･蜉・
 
 $ARGUMENTS
 
 ---
 
-## 🚨 重要: 選択的コピー禁止
+## 圷 驥崎ｦ・ 驕ｸ謚樒噪繧ｳ繝斐・遖∵ｭ｢
 
-**絶対にファイルを選別してコピーしない。以下のリスト通りに全ファイルをコピーする。**
+**邨ｶ蟇ｾ縺ｫ繝輔ぃ繧､繝ｫ繧帝∈蛻･縺励※繧ｳ繝斐・縺励↑縺・ゆｻ･荳九・繝ｪ繧ｹ繝磯壹ｊ縺ｫ蜈ｨ繝輔ぃ繧､繝ｫ繧偵さ繝斐・縺吶ｋ縲・*
 
 ---
 
-## 実行手順（AIが自動実行）
+## 螳溯｡梧焔鬆・ｼ・I縺瑚・蜍募ｮ溯｡鯉ｼ・
 
-### Phase 1: 検証
+### Phase 1: 讀懆ｨｼ
 
-1. 対象プロジェクトパスの存在確認
-2. 既存ファイルの有無確認
-3. **ソースパス確認**: `D:\claudecode\sd002`
+1. 蟇ｾ雎｡繝励Ο繧ｸ繧ｧ繧ｯ繝医ヱ繧ｹ縺ｮ蟄伜惠遒ｺ隱・
+2. 譌｢蟄倥ヵ繧｡繧､繝ｫ縺ｮ譛臥┌遒ｺ隱・
+3. **繧ｽ繝ｼ繧ｹ繝代せ遒ｺ隱・*: `D:\claudecode\sd002`
 
-### Phase 2: ディレクトリ作成
+### Phase 2: 繝・ぅ繝ｬ繧ｯ繝医Μ菴懈・
 
 ```bash
-# 全ディレクトリを作成
+# 蜈ｨ繝・ぅ繝ｬ繧ｯ繝医Μ繧剃ｽ懈・
 mkdir -p <target>/.claude/commands/kiro
 mkdir -p <target>/.claude/rules/global
 mkdir -p <target>/.claude/rules/troubleshooting
@@ -50,17 +50,17 @@ mkdir -p <target>/.claude/skills/dialogue-trigger
 mkdir -p <target>/.claude/skills/context-autonomy
 mkdir -p <target>/.claude/skills/session-autosave
 mkdir -p <target>/.claude/skills/rollback-guard
-mkdir -p <target>/.claude/skills/kiro-deploy
-mkdir -p <target>/.kiro/specs
-mkdir -p <target>/.kiro/steering
-mkdir -p <target>/.kiro/sessions
-mkdir -p <target>/.kiro/settings/templates
-mkdir -p <target>/.kiro/settings/rules
-mkdir -p <target>/.kiro/ai-coordination/workflow/templates
-mkdir -p <target>/.kiro/ai-coordination/workflow/spec
-mkdir -p <target>/.kiro/ai-coordination/workflow/review
-mkdir -p <target>/.kiro/ai-coordination/handoff
-mkdir -p <target>/.kiro/ids
+mkdir -p <target>/.claude/skills/sd-deploy
+mkdir -p <target>/.sd/specs
+mkdir -p <target>/.sd/steering
+mkdir -p <target>/.sd/sessions
+mkdir -p <target>/.sd/settings/templates
+mkdir -p <target>/.sd/settings/rules
+mkdir -p <target>/.sd/ai-coordination/workflow/templates
+mkdir -p <target>/.sd/ai-coordination/workflow/spec
+mkdir -p <target>/.sd/ai-coordination/workflow/review
+mkdir -p <target>/.sd/ai-coordination/handoff
+mkdir -p <target>/.sd/ids
 mkdir -p <target>/docs/troubleshooting/bug-reports
 mkdir -p <target>/materials/csv
 mkdir -p <target>/materials/excel
@@ -69,49 +69,49 @@ mkdir -p <target>/materials/images
 mkdir -p <target>/materials/text
 ```
 
-### Phase 3: ファイルコピー（🚨 省略禁止）
+### Phase 3: 繝輔ぃ繧､繝ｫ繧ｳ繝斐・・芋泅ｨ 逵∫払遖∵ｭ｢・・
 
-**ソース**: `D:\claudecode\sd002`
+**繧ｽ繝ｼ繧ｹ**: `D:\claudecode\sd002`
 
 ---
 
-#### 3-1. Commands直下（27ファイル）
+#### 3-1. Commands逶ｴ荳具ｼ・7繝輔ぃ繧､繝ｫ・・
 
-| # | ファイル | 必須 |
+| # | 繝輔ぃ繧､繝ｫ | 蠢・・|
 |---|---------|------|
-| 1 | sessionread.md | 🚨 |
-| 2 | sessionwrite.md | 🚨 |
-| 3 | sessionhistory.md | 🚨 |
-| 4 | bug-quick.md | 🚨 |
-| 5 | bug-trace.md | 🚨 |
-| 6 | dialogue-resolution.md | 🚨 |
-| 7 | workflow-init.md | ✓ |
-| 8 | workflow-order.md | ✓ |
-| 9 | workflow-request.md | ✓ |
-| 10 | workflow-status.md | ✓ |
-| 11 | sd002-loop-test.md | ✓ |
-| 12 | sd002-loop-lint.md | ✓ |
-| 13 | sd002-loop-type.md | ✓ |
-| 14 | ralph-wiggum-run.md | ✓ |
-| 15 | ralph-wiggum-status.md | ✓ |
-| 16 | ralph-wiggum-plan.md | ✓ |
-| 17 | refactor-init.md | ✓ |
-| 18 | refactor-plan.md | ✓ |
-| 19 | refactor-batch.md | ✓ |
-| 20 | refactor-rollback.md | ✓ |
-| 21 | refactor-complete.md | ✓ |
-| 22 | cleanup.md | ✓ |
-| 23 | cleanup-restore.md | ✓ |
-| 24 | cleanup-history.md | ✓ |
-| 25 | spec-archive.md | ✓ |
-| 26 | spec-history.md | ✓ |
-| 27 | kiro-deploy.md | ✓ |
+| 1 | sessionread.md | 圷 |
+| 2 | sessionwrite.md | 圷 |
+| 3 | sessionhistory.md | 圷 |
+| 4 | bug-quick.md | 圷 |
+| 5 | bug-trace.md | 圷 |
+| 6 | dialogue-resolution.md | 圷 |
+| 7 | workflow-init.md | 笨・|
+| 8 | workflow-order.md | 笨・|
+| 9 | workflow-request.md | 笨・|
+| 10 | workflow-status.md | 笨・|
+| 11 | sd002-loop-test.md | 笨・|
+| 12 | sd002-loop-lint.md | 笨・|
+| 13 | sd002-loop-type.md | 笨・|
+| 14 | ralph-wiggum-run.md | 笨・|
+| 15 | ralph-wiggum-status.md | 笨・|
+| 16 | ralph-wiggum-plan.md | 笨・|
+| 17 | refactor-init.md | 笨・|
+| 18 | refactor-plan.md | 笨・|
+| 19 | refactor-batch.md | 笨・|
+| 20 | refactor-rollback.md | 笨・|
+| 21 | refactor-complete.md | 笨・|
+| 22 | cleanup.md | 笨・|
+| 23 | cleanup-restore.md | 笨・|
+| 24 | cleanup-history.md | 笨・|
+| 25 | spec-archive.md | 笨・|
+| 26 | spec-history.md | 笨・|
+| 27 | sd-deploy.md | 笨・|
 
 ---
 
-#### 3-2. Commands/kiro/（15ファイル）
+#### 3-2. Commands/kiro/・・5繝輔ぃ繧､繝ｫ・・
 
-| # | ファイル |
+| # | 繝輔ぃ繧､繝ｫ |
 |---|---------|
 | 1 | spec-init.md |
 | 2 | spec-requirements.md |
@@ -131,9 +131,9 @@ mkdir -p <target>/materials/text
 
 ---
 
-#### 3-3. Rules（10ディレクトリ）
+#### 3-3. Rules・・0繝・ぅ繝ｬ繧ｯ繝医Μ・・
 
-| ディレクトリ | ファイル |
+| 繝・ぅ繝ｬ繧ｯ繝医Μ | 繝輔ぃ繧､繝ｫ |
 |-------------|----------|
 | (root) | ralph-loop.md, README.md |
 | global/ | quality-standards.md |
@@ -148,28 +148,28 @@ mkdir -p <target>/materials/text
 
 ---
 
-#### 3-4. Skills（6フォルダ）
+#### 3-4. Skills・・繝輔か繝ｫ繝・・
 
-| スキル | ファイル |
+| 繧ｹ繧ｭ繝ｫ | 繝輔ぃ繧､繝ｫ |
 |--------|---------|
 | dialogue-resolution/ | SKILL.md |
 | dialogue-trigger/ | SKILL.md |
 | context-autonomy/ | SKILL.md |
 | session-autosave/ | SKILL.md |
 | rollback-guard/ | SKILL.md |
-| kiro-deploy/ | SKILL.md, README.md |
+| sd-deploy/ | SKILL.md, README.md |
 
 ---
 
-#### 3-5. Sessions（3ファイル）
+#### 3-5. Sessions・・繝輔ぃ繧､繝ｫ・・
 
-| ファイル | 処理 |
+| 繝輔ぃ繧､繝ｫ | 蜃ｦ逅・|
 |---------|------|
-| session-template.md | コピー |
-| session-current.md | **新規作成**（下記テンプレート使用） |
-| TIMELINE.md | **新規作成**（下記テンプレート使用） |
+| session-template.md | 繧ｳ繝斐・ |
+| session-current.md | **譁ｰ隕丈ｽ懈・**・井ｸ玖ｨ倥ユ繝ｳ繝励Ξ繝ｼ繝井ｽｿ逕ｨ・・|
+| TIMELINE.md | **譁ｰ隕丈ｽ懈・**・井ｸ玖ｨ倥ユ繝ｳ繝励Ξ繝ｼ繝井ｽｿ逕ｨ・・|
 
-**session-current.md テンプレート**:
+**session-current.md 繝・Φ繝励Ξ繝ｼ繝・*:
 ```markdown
 # Session Record
 
@@ -177,32 +177,32 @@ mkdir -p <target>/materials/text
 - **Date**: [YYYY-MM-DD HH:MM:SS]
 - **Project**: {PROJECT_NAME}
 - **Branch**: main
-- **Latest Commit**: (初期化時点)
+- **Latest Commit**: (蛻晄悄蛹匁凾轤ｹ)
 
 ## Progress Summary
 
 ### Completed
-- SD002フレームワーク展開完了
+- SD002繝輔Ξ繝ｼ繝繝ｯ繝ｼ繧ｯ螻暮幕螳御ｺ・
 
 ### In Progress
-- (なし)
+- (縺ｪ縺・
 
 ### Unresolved Issues
-- (なし)
+- (縺ｪ縺・
 
 ### Created/Modified Files
-- SD002フレームワークファイル群
+- SD002繝輔Ξ繝ｼ繝繝ｯ繝ｼ繧ｯ繝輔ぃ繧､繝ｫ鄒､
 
 ### Next Session Tasks
-- P0 (Urgent): なし
-- P1 (Important): /sessionread で動作確認
-- P2 (Normal): なし
+- P0 (Urgent): 縺ｪ縺・
+- P1 (Important): /sessionread 縺ｧ蜍穂ｽ懃｢ｺ隱・
+- P2 (Normal): 縺ｪ縺・
 
 ### Notes
-SD002 v2.11.0 で初期化。
+SD002 v2.11.0 縺ｧ蛻晄悄蛹悶・
 ```
 
-**TIMELINE.md テンプレート**:
+**TIMELINE.md 繝・Φ繝励Ξ繝ｼ繝・*:
 ```markdown
 # {PROJECT_NAME} - Project Timeline
 
@@ -216,15 +216,15 @@ SD002 v2.11.0 で初期化。
 ## Timeline
 
 ### {DATE} - Project Initialized
-- SD002フレームワーク展開
-- 初期セッション作成
+- SD002繝輔Ξ繝ｼ繝繝ｯ繝ｼ繧ｯ螻暮幕
+- 蛻晄悄繧ｻ繝・す繝ｧ繝ｳ菴懈・
 ```
 
 ---
 
-#### 3-6. Docs（4ファイル）
+#### 3-6. Docs・・繝輔ぃ繧､繝ｫ・・
 
-| ファイル |
+| 繝輔ぃ繧､繝ｫ |
 |---------|
 | troubleshooting/RESOLUTION_LOG.md |
 | troubleshooting/BUG_TRACE_LOG.md |
@@ -233,9 +233,9 @@ SD002 v2.11.0 で初期化。
 
 ---
 
-#### 3-7. AI-Coordination Templates（6ファイル）
+#### 3-7. AI-Coordination Templates・・繝輔ぃ繧､繝ｫ・・
 
-| ファイル |
+| 繝輔ぃ繧､繝ｫ |
 |---------|
 | workflow/templates/WORK_ORDER.md |
 | workflow/templates/IMPLEMENT_REQUEST.md |
@@ -248,115 +248,115 @@ SD002 v2.11.0 で初期化。
 
 ---
 
-### Phase 4: 検証（🚨 全項目確認必須）
+### Phase 4: 讀懆ｨｼ・芋泅ｨ 蜈ｨ鬆・岼遒ｺ隱榊ｿ・茨ｼ・
 
 ```bash
-# === 必須ファイル確認 ===
+# === 蠢・医ヵ繧｡繧､繝ｫ遒ｺ隱・===
 
-# Commands直下（6個の必須ファイル）
-[ -f ".claude/commands/sessionread.md" ] && echo "✅ sessionread.md" || echo "❌ sessionread.md"
-[ -f ".claude/commands/sessionwrite.md" ] && echo "✅ sessionwrite.md" || echo "❌ sessionwrite.md"
-[ -f ".claude/commands/sessionhistory.md" ] && echo "✅ sessionhistory.md" || echo "❌ sessionhistory.md"
-[ -f ".claude/commands/bug-quick.md" ] && echo "✅ bug-quick.md" || echo "❌ bug-quick.md"
-[ -f ".claude/commands/bug-trace.md" ] && echo "✅ bug-trace.md" || echo "❌ bug-trace.md"
-[ -f ".claude/commands/dialogue-resolution.md" ] && echo "✅ dialogue-resolution.md" || echo "❌ dialogue-resolution.md"
+# Commands逶ｴ荳具ｼ・蛟九・蠢・医ヵ繧｡繧､繝ｫ・・
+[ -f ".claude/commands/sessionread.md" ] && echo "笨・sessionread.md" || echo "笶・sessionread.md"
+[ -f ".claude/commands/sessionwrite.md" ] && echo "笨・sessionwrite.md" || echo "笶・sessionwrite.md"
+[ -f ".claude/commands/sessionhistory.md" ] && echo "笨・sessionhistory.md" || echo "笶・sessionhistory.md"
+[ -f ".claude/commands/bug-quick.md" ] && echo "笨・bug-quick.md" || echo "笶・bug-quick.md"
+[ -f ".claude/commands/bug-trace.md" ] && echo "笨・bug-trace.md" || echo "笶・bug-trace.md"
+[ -f ".claude/commands/dialogue-resolution.md" ] && echo "笨・dialogue-resolution.md" || echo "笶・dialogue-resolution.md"
 
-# Commands/kiro（3個サンプル確認）
-[ -f ".claude/commands/kiro/spec-init.md" ] && echo "✅ kiro/spec-init.md" || echo "❌ kiro/spec-init.md"
-[ -f ".claude/commands/kiro/deploy.md" ] && echo "✅ kiro/deploy.md" || echo "❌ kiro/deploy.md"
-[ -f ".claude/commands/kiro/steering.md" ] && echo "✅ kiro/steering.md" || echo "❌ kiro/steering.md"
+# Commands/kiro・・蛟九し繝ｳ繝励Ν遒ｺ隱搾ｼ・
+[ -f ".claude/commands/kiro/spec-init.md" ] && echo "笨・kiro/spec-init.md" || echo "笶・kiro/spec-init.md"
+[ -f ".claude/commands/kiro/deploy.md" ] && echo "笨・kiro/deploy.md" || echo "笶・kiro/deploy.md"
+[ -f ".claude/commands/kiro/steering.md" ] && echo "笨・kiro/steering.md" || echo "笶・kiro/steering.md"
 
-# Sessions（必須）
-[ -f ".kiro/sessions/session-current.md" ] && echo "✅ session-current.md" || echo "❌ session-current.md"
-[ -f ".kiro/sessions/TIMELINE.md" ] && echo "✅ TIMELINE.md" || echo "❌ TIMELINE.md"
+# Sessions・亥ｿ・茨ｼ・
+[ -f ".sd/sessions/session-current.md" ] && echo "笨・session-current.md" || echo "笶・session-current.md"
+[ -f ".sd/sessions/TIMELINE.md" ] && echo "笨・TIMELINE.md" || echo "笶・TIMELINE.md"
 
-# ファイル数カウント
+# 繝輔ぃ繧､繝ｫ謨ｰ繧ｫ繧ｦ繝ｳ繝・
 echo "--- File Counts ---"
-echo "Commands直下: $(ls -1 .claude/commands/*.md 2>/dev/null | wc -l) files"
-echo "Commands/kiro: $(ls -1 .claude/commands/kiro/*.md 2>/dev/null | wc -l) files"
+echo "Commands逶ｴ荳・ $(ls -1 .claude/commands/*.md 2>/dev/null | wc -l) files"
+echo "Commands/sd: $(ls -1 .claude/commands/kiro/*.md 2>/dev/null | wc -l) files"
 echo "Rules: $(find .claude/rules -name '*.md' 2>/dev/null | wc -l) files"
 echo "Skills: $(find .claude/skills -name '*.md' 2>/dev/null | wc -l) files"
 ```
 
-**期待値**:
-| カテゴリ | 期待ファイル数 |
+**譛溷ｾ・､**:
+| 繧ｫ繝・ざ繝ｪ | 譛溷ｾ・ヵ繧｡繧､繝ｫ謨ｰ |
 |---------|---------------|
-| Commands直下 | 27 |
+| Commands逶ｴ荳・| 27 |
 | Commands/kiro | 15 |
 | Rules | 14 |
 | Skills | 7 |
 
-**❌が1つでもある場合は展開失敗 → 再実行**
+**笶後′1縺､縺ｧ繧ゅ≠繧句ｴ蜷医・螻暮幕螟ｱ謨・竊・蜀榊ｮ溯｡・*
 
 ---
 
-### Phase 5: レポート出力
+### Phase 5: 繝ｬ繝昴・繝亥・蜉・
 
 ```
-=== SD002展開完了 ===
+=== SD002螻暮幕螳御ｺ・===
 
-対象: {PROJECT_PATH}
-バージョン: v2.11.0
-日時: {TIMESTAMP}
+蟇ｾ雎｡: {PROJECT_PATH}
+繝舌・繧ｸ繝ｧ繝ｳ: v2.11.0
+譌･譎・ {TIMESTAMP}
 
-【コピーしたファイル数】
-- Commands直下: 27個
-- Commands/kiro: 15個
-- Rules: 14個
-- Skills: 7個
-- Docs: 4個
-- Sessions: 3個（1コピー + 2新規作成）
-- AI-Coordination: 8個
+縲舌さ繝斐・縺励◆繝輔ぃ繧､繝ｫ謨ｰ縲・
+- Commands逶ｴ荳・ 27蛟・
+- Commands/sd: 15蛟・
+- Rules: 14蛟・
+- Skills: 7蛟・
+- Docs: 4蛟・
+- Sessions: 3蛟具ｼ・繧ｳ繝斐・ + 2譁ｰ隕丈ｽ懈・・・
+- AI-Coordination: 8蛟・
 
-合計: 78ファイル
+蜷郁ｨ・ 78繝輔ぃ繧､繝ｫ
 
-【検証結果】
-✅ 全必須ファイル存在確認
-✅ ファイル数一致確認
+縲先､懆ｨｼ邨先棡縲・
+笨・蜈ｨ蠢・医ヵ繧｡繧､繝ｫ蟄伜惠遒ｺ隱・
+笨・繝輔ぃ繧､繝ｫ謨ｰ荳閾ｴ遒ｺ隱・
 
-【次のステップ】
-1. 対象プロジェクトで /sessionread を実行
-2. 動作確認
+縲先ｬ｡縺ｮ繧ｹ繝・ャ繝励・
+1. 蟇ｾ雎｡繝励Ο繧ｸ繧ｧ繧ｯ繝医〒 /sessionread 繧貞ｮ溯｡・
+2. 蜍穂ｽ懃｢ｺ隱・
 ```
 
 ---
 
-## 注意事項
+## 豕ｨ諢丈ｺ矩・
 
-### 🚨 絶対禁止事項
+### 圷 邨ｶ蟇ｾ遖∵ｭ｢莠矩・
 
-1. **選択的コピー禁止** - 「これは不要そう」という判断をしない
-2. **ディレクトリ省略禁止** - kiro/サブフォルダを忘れない
-3. **検証省略禁止** - Phase 4を必ず実行
+1. **驕ｸ謚樒噪繧ｳ繝斐・遖∵ｭ｢** - 縲後％繧後・荳崎ｦ√◎縺・阪→縺・≧蛻､譁ｭ繧偵＠縺ｪ縺・
+2. **繝・ぅ繝ｬ繧ｯ繝医Μ逵∫払遖∵ｭ｢** - kiro/繧ｵ繝悶ヵ繧ｩ繝ｫ繝繧貞ｿ倥ｌ縺ｪ縺・
+3. **讀懆ｨｼ逵∫払遖∵ｭ｢** - Phase 4繧貞ｿ・★螳溯｡・
 
-### 既存ファイルの扱い
+### 譌｢蟄倥ヵ繧｡繧､繝ｫ縺ｮ謇ｱ縺・
 
-- 既存ファイルは上書きしない（バックアップ推奨）
-- 上書きが必要な場合はユーザーに確認
+- 譌｢蟄倥ヵ繧｡繧､繝ｫ縺ｯ荳頑嶌縺阪＠縺ｪ縺・ｼ医ヰ繝・け繧｢繝・・謗ｨ螂ｨ・・
+- 荳頑嶌縺阪′蠢・ｦ√↑蝣ｴ蜷医・繝ｦ繝ｼ繧ｶ繝ｼ縺ｫ遒ｺ隱・
 
-### session-current.md と TIMELINE.md
+### session-current.md 縺ｨ TIMELINE.md
 
-- **新規作成する**（sd002からコピーしない）
-- プロジェクト固有の初期内容を記載
-
----
-
-## トラブルシューティング
-
-### コマンドが認識されない
-
-1. `/sessionread` 実行
-2. `.claude/commands/` 配下のファイル確認
-3. 漏れがあれば手動コピー
-
-### 検証で❌が出た
-
-1. ソースパス `D:\claudecode\sd002` を確認
-2. 該当ファイルを手動コピー
-3. 再検証
+- **譁ｰ隕丈ｽ懈・縺吶ｋ**・・d002縺九ｉ繧ｳ繝斐・縺励↑縺・ｼ・
+- 繝励Ο繧ｸ繧ｧ繧ｯ繝亥崋譛峨・蛻晄悄蜀・ｮｹ繧定ｨ倩ｼ・
 
 ---
 
-## 詳細ドキュメント
+## 繝医Λ繝悶Ν繧ｷ繝･繝ｼ繝・ぅ繝ｳ繧ｰ
 
-`.claude/skills/kiro-deploy/README.md`
+### 繧ｳ繝槭Φ繝峨′隱崎ｭ倥＆繧後↑縺・
+
+1. `/sessionread` 螳溯｡・
+2. `.claude/commands/` 驟堺ｸ九・繝輔ぃ繧､繝ｫ遒ｺ隱・
+3. 貍上ｌ縺後≠繧後・謇句虚繧ｳ繝斐・
+
+### 讀懆ｨｼ縺ｧ笶後′蜃ｺ縺・
+
+1. 繧ｽ繝ｼ繧ｹ繝代せ `D:\claudecode\sd002` 繧堤｢ｺ隱・
+2. 隧ｲ蠖薙ヵ繧｡繧､繝ｫ繧呈焔蜍輔さ繝斐・
+3. 蜀肴､懆ｨｼ
+
+---
+
+## 隧ｳ邏ｰ繝峨く繝･繝｡繝ｳ繝・
+
+`.claude/skills/sd-deploy/README.md`

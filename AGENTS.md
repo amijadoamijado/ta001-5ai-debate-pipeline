@@ -1,15 +1,12 @@
-# AGENTS.md - Codex CLI Configuration (SD003)
+﻿# AGENTS.md - Codex CLI Configuration (SD003)
 
-## 役割の明確化
-
-このファイルは**Codex CLI全体の設定**を定義します。
-
-コードレビュー時の詳細な手順は `.handoff/AGENTS.md` を参照してください。
-
-| ファイル | 役割 |
+## 蠖ｹ蜑ｲ縺ｮ譏守｢ｺ蛹・
+縺薙・繝輔ぃ繧､繝ｫ縺ｯ**Codex CLI蜈ｨ菴薙・險ｭ螳・*繧貞ｮ夂ｾｩ縺励∪縺吶・
+繧ｳ繝ｼ繝峨Ξ繝薙Η繝ｼ譎ゅ・隧ｳ邏ｰ縺ｪ謇矩・・ `.handoff/AGENTS.md` 繧貞盾辣ｧ縺励※縺上□縺輔＞縲・
+| 繝輔ぃ繧､繝ｫ | 蠖ｹ蜑ｲ |
 |---------|------|
-| `AGENTS.md`（このファイル） | Codex全体の設定・AI Coordination・Work Order Review |
-| `.handoff/AGENTS.md` | コードレビュー専用の4段階手順 |
+| `AGENTS.md`・医％縺ｮ繝輔ぃ繧､繝ｫ・・| Codex蜈ｨ菴薙・險ｭ螳壹・AI Coordination繝ｻWork Order Review |
+| `.handoff/AGENTS.md` | 繧ｳ繝ｼ繝峨Ξ繝薙Η繝ｼ蟆ら畑縺ｮ4谿ｵ髫取焔鬆・|
 
 ---
 
@@ -34,7 +31,7 @@
 
 ### File Location Rules
 
-**ALL documents in `.kiro/ai-coordination/`**
+**ALL documents in `.sd/ai-coordination/`**
 
 | Read From | Write To |
 |-----------|----------|
@@ -85,35 +82,34 @@ npm test && npm run lint
 
 ### Specification
 ```
-/prompts:kiro-spec-init "description"
-/prompts:kiro-spec-requirements {feature}
-/prompts:kiro-spec-design {feature}
-/prompts:kiro-spec-tasks {feature}
+/prompts:sd-spec-init "description"
+/prompts:sd-spec-requirements {feature}
+/prompts:sd-spec-design {feature}
+/prompts:sd-spec-tasks {feature}
 ```
 
 ### Implementation
 ```
-/prompts:kiro-spec-impl {feature}
-/prompts:kiro-validate-impl {feature}
+/prompts:sd-spec-impl {feature}
+/prompts:sd-validate-impl {feature}
 ```
 
-### Claude互換コマンド同期
-- Source: `.claude/commands/**/*.md`
+### Claude莠呈鋤繧ｳ繝槭Φ繝牙酔譛・- Source: `.claude/commands/**/*.md`
 - Target: `~/.codex/prompts/`
 - Sync command: `npm run sync:codex-prompts`
-- コマンド実行: `/prompts:<name>`
-- コマンド候補表示: `/` を入力して `prompts:` で絞り込み
+- 繧ｳ繝槭Φ繝牙ｮ溯｡・ `/prompts:<name>`
+- 繧ｳ繝槭Φ繝牙呵｣懆｡ｨ遉ｺ: `/` 繧貞・蜉帙＠縺ｦ `prompts:` 縺ｧ邨槭ｊ霎ｼ縺ｿ
 
-例:
+萓・
 - Claude `/bug-quick` -> Codex `/prompts:bug-quick`
-- Claude `/kiro:spec-init` -> Codex `/prompts:kiro-spec-init` または `/prompts:kiro/spec-init`
+- Claude `/sd:spec-init` -> Codex `/prompts:sd-spec-init` 縺ｾ縺溘・ `/prompts:kiro/spec-init`
 
 ---
 
 ## Reference
 - **AI Coordination**: `.claude/rules/workflow/ai-coordination.md`
 - **Quality Gates**: `docs/quality-gates.md`
-- **Templates**: `.kiro/ai-coordination/workflow/templates/`
+- **Templates**: `.sd/ai-coordination/workflow/templates/`
 
 ---
 SD003 Framework v2.11.0 | Updated: 2026-02-11
